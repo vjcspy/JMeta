@@ -4,6 +4,11 @@
  * This settings file is used to specify which projects to include in your build-logic build.
  */
 
+/*
+Configure buildSrc project
+Ít khi cần chỉnh sửa file này
+Thường chỉ dùng khi buildSrc có nhiều subprojects
+* */
 dependencyResolutionManagement {
     // Reuse version catalog from the main build.
     versionCatalogs {
