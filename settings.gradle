@@ -11,4 +11,4 @@ plugins {
 }
 
 rootProject.name = 'mava'
-include('app', 'list', 'utilities', 'shared:tedbed')
+include('app', 'api', 'list', 'utilities', 'shared:tedbed', 'shared:spring-base')

@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: node_prisma_db
+    volumes:
+      - ./prisma:/app/prisma
+      - ./package.json:/app/package.json
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    command: npx prisma migrate dev
+    networks:
+      - my-bridge-network
+
+networks:
+  my-bridge-network:
+    driver: bridge

@@ -1,0 +1,16 @@
+{
+  "name": "node-prisma-db",
+  "version": "1.0.0",
+  "scripts": {
+    "prisma": "___________________________ PRISMA ___________________________",
+    "prisma:env": "dotenv -e .env.default prisma --version",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.16.2",
+    "dotenv-cli": "^7.3.0",
+    "prisma": "^4.0.0"
+  }
+}
