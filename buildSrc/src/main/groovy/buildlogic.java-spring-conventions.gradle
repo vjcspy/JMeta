@@ -7,5 +7,26 @@ plugins {
     id 'buildlogic.java-common-conventions'
 }
 
+dependencies {
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    // MapStruct
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
+    // Thư viện Slf4j API
+    implementation 'org.slf4j:slf4j-api:2.0.16'
+
+    // Logback
+    implementation 'ch.qos.logback:logback-classic:1.5.12'
+    // Optional: Logback extras
+    implementation 'org.codehaus.janino:janino:3.1.12'     // Cho conditional logging
+
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.18.1'
+}
+
 group = 'com.vjcspy'
 version = '0.0.1-SNAPSHOT'

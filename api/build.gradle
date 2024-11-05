@@ -15,15 +15,6 @@ dependencies {
     implementation project(':utilities')
     implementation project(':shared:spring-base')
 
-    // Lombok
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
-
-    // MapStruct
-    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
-
     // Documentation
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.+'
 
@@ -37,4 +28,24 @@ dependencies {
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.register('dev') {
+    doFirst {
+        // Start continuous build in background
+        ProcessBuilder buildProcess = new ProcessBuilder(
+                isWindows() ? 'gradlew.bat' : './gradlew',
+                ':api:build',
+                '--continuous'
+        )
+        buildProcess.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+        buildProcess.redirectError(ProcessBuilder.Redirect.INHERIT)
+        buildProcess.start()
+    }
+
+    finalizedBy(':api:bootRun')
+}
+
+static def isWindows() {
+    return System.getProperty('os.name').toLowerCase().contains('windows')
 }
