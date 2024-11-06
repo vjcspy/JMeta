@@ -1,0 +1,24 @@
+version: '3'
+vars:
+  env_file: .env.local
+
+tasks:
+  migrate:
+    desc: "Run Prisma migrations"
+    cmds:
+      - docker compose --env-file {{.env_file}} -f docker/db/docker-compose.yaml run --rm app npm run prisma:migrate
+
+  studio:
+    desc: "Run Prisma Studio"
+    cmds:
+      - docker compose -f docker/db/docker-compose.yaml exec app npm run prisma:studio
+
+  up:
+    desc: "Start containers"
+    cmds:
+      - docker compose -f docker/docker-compose.yaml up -d
+
+  down:
+    desc: "Stop containers"
+    cmds:
+      - docker compose -f docker/docker-compose.yaml down

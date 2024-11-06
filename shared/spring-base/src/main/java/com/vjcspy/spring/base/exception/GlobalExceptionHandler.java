@@ -11,6 +11,8 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.AccessDeniedException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -151,9 +153,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private String getStackTraceAsString(Throwable ex) {
-        // Convert stack trace to string with each element on a new line
-        return Arrays.stream(ex.getStackTrace())
-                .map(StackTraceElement::toString)
-                .collect(Collectors.joining("\n"));
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        ex.printStackTrace(printWriter);
+        return stringWriter.toString();
     }
 }
