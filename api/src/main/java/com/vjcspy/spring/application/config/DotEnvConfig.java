@@ -2,10 +2,8 @@
 package com.vjcspy.spring.application.config;
 
 import com.vjcspy.spring.base.config.Env;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
