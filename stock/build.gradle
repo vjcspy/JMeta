@@ -46,7 +46,7 @@ tasks.register('dev') {
 		// Start continuous build in background
 		ProcessBuilder buildProcess = new ProcessBuilder(
 				isWindows() ? 'gradlew.bat' : './gradlew',
-				':api:build',
+				':stock:build',
 				'--continuous'
 		)
 		buildProcess.redirectOutput(ProcessBuilder.Redirect.INHERIT)
@@ -54,7 +54,7 @@ tasks.register('dev') {
 		buildProcess.start()
 	}
 
-	finalizedBy(':api:bootRun')
+	finalizedBy(':stock:bootRun')
 }
 
 static def isWindows() {
