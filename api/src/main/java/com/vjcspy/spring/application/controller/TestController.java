@@ -2,6 +2,7 @@
 package com.vjcspy.spring.application.controller;
 
 import com.vjcspy.spring.base.BaseService;
+import com.vjcspy.spring.base.config.Env;
 import com.vjcspy.spring.base.exception.BusinessException;
 import com.vjcspy.spring.base.exception.constant.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,9 @@ public class TestController {
     @Autowired
     private BaseService baseService;
 
+    @Autowired
+    private Env env;
+
     @GetMapping
     public ResponseEntity<String> getMessage() {
         log.info("getMessage");
@@ -27,5 +31,10 @@ public class TestController {
     @GetMapping("/error")
     public ResponseEntity<String> testError() {
         throw new BusinessException(ErrorCode.SYSTEM_ERROR);
+    }
+
+    @GetMapping("/env")
+    public String getEnv() {
+        return "appName: " + env.get("APP_NAME") + ", version: " + env.get("APP_VERSION");
     }
 }

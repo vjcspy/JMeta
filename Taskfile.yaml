@@ -6,7 +6,7 @@ tasks:
   migrate:
     desc: "Run Prisma migrations"
     cmds:
-      - docker compose --env-file {{.env_file}} -f docker/db/docker-compose.yaml run --rm app npm run prisma:migrate
+      - docker compose -f docker/db/docker-compose.yaml run --rm app npm run prisma:migrate
 
   studio:
     desc: "Run Prisma Studio"

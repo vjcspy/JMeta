@@ -1,83 +1,83 @@
 plugins {
-    id 'buildlogic.java-spring-conventions'
+	id 'buildlogic.java-spring-conventions'
 
-    // spring
-    id 'org.springframework.boot' version '3.3.4'
-    id 'io.spring.dependency-management' version '1.1.6'
+	// spring
+	id 'org.springframework.boot' version '3.3.4'
+	id 'io.spring.dependency-management' version '1.1.6'
 
-    // spotless
-    id "com.diffplug.spotless" version "7.0.0.BETA4"
+	// spotless
+	id "com.diffplug.spotless" version "7.0.0.BETA4"
 }
 
 dependencies {
-    // Spring Boot
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// Spring Boot
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    // Project dependencies
-    implementation project(':utilities')
-    implementation project(':shared:spring-base')
+	// Project dependencies
+	implementation project(':utilities')
+	implementation project(':shared:spring-base')
 
-    // Documentation
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.+'
+	// Documentation
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.+'
 
-    // Development
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	// Development
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-    // Database
-    runtimeOnly 'org.postgresql:postgresql'
+	// Database
+	runtimeOnly 'org.postgresql:postgresql'
 
-    // Test
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// Test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.register('dev') {
-    doFirst {
-        // Start continuous build in background
-        ProcessBuilder buildProcess = new ProcessBuilder(
-                isWindows() ? 'gradlew.bat' : './gradlew',
-                ':api:build',
-                '--continuous'
-        )
-        buildProcess.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-        buildProcess.redirectError(ProcessBuilder.Redirect.INHERIT)
-        buildProcess.start()
-    }
+	doFirst {
+		// Start continuous build in background
+		ProcessBuilder buildProcess = new ProcessBuilder(
+				isWindows() ? 'gradlew.bat' : './gradlew',
+				':api:build',
+				'--continuous'
+		)
+		buildProcess.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+		buildProcess.redirectError(ProcessBuilder.Redirect.INHERIT)
+		buildProcess.start()
+	}
 
-    finalizedBy(':api:bootRun')
+	finalizedBy(':api:bootRun')
 }
 
 static def isWindows() {
-    return System.getProperty('os.name').toLowerCase().contains('windows')
+	return System.getProperty('os.name').toLowerCase().contains('windows')
 }
 
 spotless {
-    format 'misc', {
-        // define the files to apply `misc` to
-        target '*.gradle', '.gitattributes', '.gitignore'
+	format 'misc', {
+		// define the files to apply `misc` to
+		target '*.gradle', '.gitattributes', '.gitignore'
 
-        // define the steps to apply to those files
-        trimTrailingWhitespace()
-        indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
-        endWithNewline()
-    }
-    java {
-        target '**/src/**/*.java'
+		// define the steps to apply to those files
+		trimTrailingWhitespace()
+		indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
+		endWithNewline()
+	}
+	java {
+		target '**/src/**/*.java'
 
-        // Use the default importOrder configuration
-        importOrder()
+		// Use the default importOrder configuration
+		importOrder()
 
-        // Cleanthat will refactor your code, but it may break your style: apply it before your formatter
-        cleanthat()          // has its own section below
+		// Cleanthat will refactor your code, but it may break your style: apply it before your formatter
+		cleanthat()          // has its own section below
 
-        // formatters.
-        palantirJavaFormat()
+		// formatters.
+		palantirJavaFormat()
 
-        formatAnnotations()  // fixes formatting of type annotations, see below
+		formatAnnotations()  // fixes formatting of type annotations, see below
 
-        licenseHeader '/* (C) $YEAR */' // or licenseHeaderFile
-    }
+		licenseHeader '/* (C) $YEAR */' // or licenseHeaderFile
+	}
 }

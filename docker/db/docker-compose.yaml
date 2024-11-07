@@ -10,11 +10,5 @@ services:
       - ./prisma:/app/prisma
       - ./package.json:/app/package.json
     environment:
-      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_URL: postgresql://root:root@host.docker.internal:5432/java_demo?schema=public&connection_limit=7
     command: npx prisma migrate dev
-    networks:
-      - my-bridge-network
-
-networks:
-  my-bridge-network:
-    driver: bridge
