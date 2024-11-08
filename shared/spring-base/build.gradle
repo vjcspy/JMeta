@@ -1,13 +1,12 @@
 plugins {
     id 'buildlogic.java-spring-conventions'
 
-    id 'org.springframework.boot' version '3.3.4' apply false
-    id 'io.spring.dependency-management' version '1.1.6'
+    alias(libs.plugins.spring.boot) apply false
+    alias(libs.plugins.spring.dependency)
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation project(':shared:event-manager')
 }
 
 dependencyManagement {

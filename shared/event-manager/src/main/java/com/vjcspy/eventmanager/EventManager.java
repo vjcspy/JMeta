@@ -47,7 +47,7 @@ import java.util.List;
  * }</pre>
  */
 @Slf4j
-class EventManager {
+public class EventManager {
     private final PublishSubject<EventAction<?>> subject = PublishSubject.create();
     private static final EventManager INSTANCE = new EventManager();
 
@@ -72,10 +72,10 @@ class EventManager {
      *              <p>
      *              Example:
      *              <pre>{@code
-     *              UserPayload payload = new UserPayload("John");
-     *              EventAction<UserPayload> event = new EventAction<>("CREATE_USER", payload);
-     *              manager.dispatch(event);
-     *              }</pre>
+     *                           UserPayload payload = new UserPayload("John");
+     *                           EventAction<UserPayload> event = new EventAction<>("CREATE_USER", payload);
+     *                           manager.dispatch(event);
+     *                           }</pre>
      */
     public <P> void dispatch(EventAction<P> event) {
         log.debug("Dispatching event: {} with payload: {}", event.getType(), event.getPayload());
@@ -91,10 +91,10 @@ class EventManager {
      *                     <p>
      *                     Example:
      *                     <pre>{@code
-     *                     EventHandler handler = upstream -> upstream
-     *                         .map(event -> new EventAction<>("PROCESSED", event.getPayload()));
-     *                     manager.registerEvent("MY_EVENT", handler);
-     *                     }</pre>
+     *                                         EventHandler handler = upstream -> upstream
+     *                                             .map(event -> new EventAction<>("PROCESSED", event.getPayload()));
+     *                                         manager.registerEvent("MY_EVENT", handler);
+     *                                         }</pre>
      */
     public void registerEvent(String eventType, EventHandler eventHandler) {
         registerEvent(List.of(eventType), eventHandler);
@@ -110,16 +110,16 @@ class EventManager {
      *                     <p>
      *                     Example:
      *                     <pre>{@code
-     *                     EventHandler handler = upstream -> upstream
-     *                         .buffer(5, TimeUnit.SECONDS)
-     *                         .map(events -> processBatch(events))
-     *                         .map(result -> new EventAction<>("BATCH_RESULT", result));
+     *                                         EventHandler handler = upstream -> upstream
+     *                                             .buffer(5, TimeUnit.SECONDS)
+     *                                             .map(events -> processBatch(events))
+     *                                             .map(result -> new EventAction<>("BATCH_RESULT", result));
      *
-     *                     manager.registerEvent(
-     *                         List.of("TYPE_1", "TYPE_2"),
-     *                         handler
-     *                     );
-     *                     }</pre>
+     *                                         manager.registerEvent(
+     *                                             List.of("TYPE_1", "TYPE_2"),
+     *                                             handler
+     *                                         );
+     *                                         }</pre>
      */
     public void registerEvent(List<String> eventTypes, EventHandler eventHandler) {
         log.info("Registering event: {}", eventTypes);

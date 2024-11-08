@@ -2,39 +2,27 @@ plugins {
 	id 'buildlogic.java-spring-conventions'
 
 	// spring
-	id 'org.springframework.boot' version '3.3.4'
-	id 'io.spring.dependency-management' version '1.1.6'
+	alias(libs.plugins.spring.boot)
+	alias(libs.plugins.spring.dependency)
 
 	// spotless
-	id "com.diffplug.spotless" version "7.0.0.BETA4"
+	alias(libs.plugins.spotless)
 }
 
 dependencies {
 	// Spring Boot
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	// ________________ Dependencies ________________
-	// Reactive & Network
-	implementation libs.rxjava
-	implementation libs.bundles.retrofit
-	// OpenAPI Documentation
-	implementation libs.springdoc.openapi.starter
-
-	// ________________ Project dependencies ________________
-	implementation project(':shared:spring-base')
-
-	// Development
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-
 	// Database
 	runtimeOnly 'org.postgresql:postgresql'
 
-	// Test
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// ________________ Project dependencies ________________
+	implementation project(':shared:event-manager')
+	implementation project(':shared:spring-base')
+	implementation project(':shared:tedbed')
 }
 
 tasks.register('dev') {

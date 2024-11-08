@@ -10,7 +10,6 @@ import static org.example.utilities.StringUtils.split;
 import static org.example.app.MessageUtils.getMessage;
 
 import org.apache.commons.text.WordUtils;
-import com.vjcspy.tedbed.TedbedHelper;
 
 public class App {
     public static void main(String[] args) {
@@ -18,6 +17,5 @@ public class App {
         tokens = split(getMessage());
         String result = join(tokens);
         System.out.println(WordUtils.capitalize(result));
-        System.out.println(TedbedHelper.getMessage());
     }
 }

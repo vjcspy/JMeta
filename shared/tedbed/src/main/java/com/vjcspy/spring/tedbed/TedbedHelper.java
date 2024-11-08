@@ -1,14 +1,9 @@
-package com.vjcspy.tedbed;
+package com.vjcspy.spring.tedbed;
+
+import org.jetbrains.annotations.NotNull;
 
 public class TedbedHelper {
-    public static String getMessage() {
-        return "Hello from TedbedHelper!";
-    }
-
-    public static void printInfo(String message) {
-        System.out.println("TedbedHelper Info: " + message);
-    }
-
+    @NotNull
     public static String getSystemInfo() {
         return String.format(
                 "OS: %s, Version: %s, Arch: %s",
