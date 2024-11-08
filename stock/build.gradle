@@ -15,19 +15,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	// Project dependencies
-	implementation project(':utilities')
+	// ________________ Dependencies ________________
+	// Reactive & Network
+	implementation libs.rxjava
+	implementation libs.bundles.retrofit
+	// OpenAPI Documentation
+	implementation libs.springdoc.openapi.starter
+
+	// ________________ Project dependencies ________________
 	implementation project(':shared:spring-base')
-	// rxjs
-	implementation 'io.reactivex.rxjava3:rxjava:3.1.9'
-	// http client
-	implementation group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.11.0'
-	implementation group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.11.0'
-	implementation group: 'com.squareup.retrofit2', name: 'adapter-rxjava3', version: '2.11.0'
-
-
-	// Documentation
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.+'
 
 	// Development
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

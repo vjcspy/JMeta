@@ -8,27 +8,19 @@ plugins {
 }
 
 dependencies {
-    // Lombok
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    // Development Tools
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+    implementation libs.mapstruct
+    annotationProcessor libs.mapstruct.processor
+    annotationProcessor libs.lombok.mapstruct.binding
 
-    // MapStruct
-    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    // Logging
+    implementation libs.bundles.logging
 
-    // Thư viện Slf4j API
-    implementation 'org.slf4j:slf4j-api:2.0.16'
-
-    // Logback
-    implementation 'ch.qos.logback:logback-classic:1.5.12'
-    // Optional: Logback extras
-    implementation 'org.codehaus.janino:janino:3.1.12'     // Cho conditional logging
-
-    // env
-    implementation 'io.github.cdimascio:java-dotenv:5.2.2'
-
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.18.1'
+    // Environment & Utils
+    implementation libs.dotenv
+    implementation libs.jackson.annotations
 }
 
 group = 'com.vjcspy'
