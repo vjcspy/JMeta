@@ -1,18 +1,25 @@
-<!-- src/main/resources/logback.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <!-- Properties for configuration -->
-    <!-- Thứ tự ưu tiên:
-        1. System Property
-        2. Environment Variable
-        3. Application Property
-        4. Default Value -->
     <property name="LOG_PATH" value="${LOG_PATH:-${LOG_DIR:-${logging.path:-logs}}}"/>
-
-    <!-- Tạo thư mục nếu chưa tồn tại -->
     <timestamp key="timestamp" datePattern="yyyy-MM-dd"/>
     <property name="LOG_ARCHIVE" value="${LOG_PATH}/archive"/>
 
-    <!-- Console Appender -->
+    <!-- Console Appender with JSON format -->
+    <appender name="ConsoleJson" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <!-- Custom fields that will be added to every log message -->
+            <customFields>{"application_name":"your-app-name","environment":"${SPRING_PROFILES_ACTIVE:-development}"}</customFields>
+            <!-- Include caller data (class name, method name, and line number) -->
+            <includeCallerData>true</includeCallerData>
+            <!-- Include full stack traces -->
+            <stackTraceEnabled>true</stackTraceEnabled>
+            <!-- Pretty print the JSON output -->
+            <prettyPrint>true</prettyPrint>
+        </encoder>
+    </appender>
+
+    <!-- Regular Console Appender (keeping the original for readable logs) -->
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
@@ -21,7 +28,25 @@
         </encoder>
     </appender>
 
-    <!-- Rolling File Appender -->
+    <!-- JSON File Appender -->
+    <appender name="JsonFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/application-json.log</file>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"application_name":"your-app-name","environment":"${SPRING_PROFILES_ACTIVE:-development}"}</customFields>
+            <includeCallerData>true</includeCallerData>
+            <stackTraceEnabled>true</stackTraceEnabled>
+            <!-- Compact JSON for file storage -->
+            <prettyPrint>false</prettyPrint>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_ARCHIVE}/application-json.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Original File Appender (keeping for backward compatibility) -->
     <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/application.log</file>
         <encoder>
@@ -29,20 +54,20 @@
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- Daily rollover -->
             <fileNamePattern>${LOG_ARCHIVE}/application.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <!-- Keep 30 days of history -->
             <maxHistory>30</maxHistory>
-            <!-- Total size cap -->
             <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>
     </appender>
 
-    <!-- Sử dụng StatusListener để Xem Trạng thái Cấu hình trong quá trình khởi động-->
-    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+    <!-- Async Appenders -->
+    <appender name="AsyncJson" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="JsonFile"/>
+        <queueSize>512</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+    </appender>
 
-    <!-- Async Appender -->
-    <appender name="Async" class="ch.qos.logback.classic.AsyncAppender">
+    <appender name="AsyncFile" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="RollingFile"/>
         <queueSize>512</queueSize>
         <discardingThreshold>0</discardingThreshold>
@@ -52,18 +77,25 @@
     <!-- Application logs -->
     <logger name="com.vjcspy" level="DEBUG" additivity="false">
         <appender-ref ref="Console"/>
-        <appender-ref ref="Async"/>
+<!--        <appender-ref ref="ConsoleJson"/>-->
+        <appender-ref ref="AsyncJson"/>
+        <appender-ref ref="AsyncFile"/>
     </logger>
 
     <!-- Framework logs -->
     <logger name="org.springframework" level="INFO" additivity="false">
         <appender-ref ref="Console"/>
-        <appender-ref ref="Async"/>
+        <appender-ref ref="AsyncJson"/>
+        <appender-ref ref="AsyncFile"/>
     </logger>
 
     <!-- Root logger -->
     <root level="INFO">
         <appender-ref ref="Console"/>
-        <appender-ref ref="Async"/>
+        <appender-ref ref="AsyncJson"/>
+        <appender-ref ref="AsyncFile"/>
     </root>
+
+    <!-- Status listener -->
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
 </configuration>
