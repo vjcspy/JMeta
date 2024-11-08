@@ -1,7 +1,7 @@
 package com.vjcspy.spring.application;
 
 import com.vjcspy.eventmanager.EventManager;
-import com.vjcspy.spring.tedbed.eventmanager.FooAction;
+import com.vjcspy.spring.tedbed.eventmanager.Actions;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -19,6 +19,6 @@ public class Application {
     }
 
     private void testRxEvent() {
-        EventManager.getInstance().dispatch(FooAction.FOO.create(null));
+        EventManager.getInstance().dispatch(Actions.Foo.FOO.create(null));
     }
 }

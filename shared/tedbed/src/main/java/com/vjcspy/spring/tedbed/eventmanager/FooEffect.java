@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class FooEffect {
-    @EventListener(type = {"FOO"})
-    public EventHandler handleFoo() {
+    @EventListener(type = {Actions.TYPE_FOO})
+    public EventHandler handleUserEvents() {
         return upstream -> upstream
                 .map(event -> {
                     log.info("Processing user event: {}", event.getType());
-                    return BarAction.BAR.create(null);
+                    return Actions.Bar.BAR.create(null);
                 });
     }
 }
