@@ -7,21 +7,5 @@ plugins {
     id 'buildlogic.java-common-conventions'
 }
 
-dependencies {
-    // Development Tools
-    compileOnly libs.lombok
-    annotationProcessor libs.lombok
-    implementation libs.mapstruct
-    annotationProcessor libs.mapstruct.processor
-    annotationProcessor libs.lombok.mapstruct.binding
-
-    // Logging
-    implementation libs.bundles.logging
-
-    // Environment & Utils
-    implementation libs.dotenv
-    implementation libs.jackson.annotations
-}
-
 group = 'com.vjcspy'
 version = '0.0.1-SNAPSHOT'

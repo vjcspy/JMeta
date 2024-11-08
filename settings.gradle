@@ -11,4 +11,4 @@ plugins {
 }
 
 rootProject.name = 'JMeta'
-include('app', 'stock', 'list', 'utilities', 'shared:tedbed', 'shared:spring-base')
+include('app', 'stock', 'list', 'utilities', 'shared:tedbed','shared:event-manager', 'shared:spring-base')
