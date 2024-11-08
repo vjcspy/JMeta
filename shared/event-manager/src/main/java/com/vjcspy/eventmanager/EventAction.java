@@ -1,18 +1,23 @@
 package com.vjcspy.eventmanager;
 
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.UUID;
 
-@Data
+@Getter
 public class EventAction<P> {
     private UUID eventId;
-    private String type;
-    private P payload;
+    private final String type;
+    private final P payload;
 
     public EventAction(String type, P payload) {
         this.type = type;
         this.payload = payload;
-        this.eventId = UUID.randomUUID();
+    }
+
+    public void registerEventId(UUID eventId) {
+        if (this.eventId == null) {
+            this.eventId = eventId != null ? eventId : UUID.randomUUID();
+        }
     }
 }

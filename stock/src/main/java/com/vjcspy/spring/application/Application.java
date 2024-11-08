@@ -1,3 +1,4 @@
+/* (C) 2024 */
 package com.vjcspy.spring.application;
 
 import com.vjcspy.eventmanager.EventManager;
