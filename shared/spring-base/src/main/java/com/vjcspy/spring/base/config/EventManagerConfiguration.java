@@ -4,6 +4,7 @@ import com.vjcspy.eventmanager.EventHandler;
 import com.vjcspy.eventmanager.EventManager;
 import com.vjcspy.spring.base.annotation.eventmanager.EventListener;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +25,7 @@ public class EventManagerConfiguration {
     }
 
     @Bean
-    public EventHandlerInitializer eventHandlerInitializer() {
+    protected EventHandlerInitializer eventHandlerInitializer() {
         return new EventHandlerInitializer();
     }
 }
@@ -33,10 +34,10 @@ public class EventManagerConfiguration {
 class EventHandlerInitializer implements ApplicationListener<ContextRefreshedEvent> {
 
     private final EventManager eventManager = EventManager.getInstance();
-    private boolean initialized = false;
+    private static boolean initialized = false;
 
     @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
+    public void onApplicationEvent(@NotNull ContextRefreshedEvent event) {
         // Tránh khởi tạo nhiều lần trong trường hợp có nhiều context refresh
         if (!initialized) {
             log.info("Initializing Event Handlers");
