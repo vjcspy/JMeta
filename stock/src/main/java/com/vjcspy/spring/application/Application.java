@@ -10,11 +10,15 @@ import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = "com.vjcspy.spring")
 @Slf4j
+@EntityScan(basePackages = "com.vjcspy.spring")
+@EnableJpaRepositories(basePackages = "com.vjcspy.spring")
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

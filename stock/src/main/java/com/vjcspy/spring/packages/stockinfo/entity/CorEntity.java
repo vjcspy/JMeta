@@ -4,26 +4,27 @@ package com.vjcspy.spring.packages.stockinfo.entity;
 import jakarta.persistence.*;
 import java.math.BigInteger;
 import java.time.LocalDate;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "cor_entity")
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @NoArgsConstructor
 public class CorEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "ref_id")
-    private Integer refId;
-
-    @Column(name = "cat_id")
+    @Column(name = "\"catId\"")
     private Integer catId;
+
+    @Column(name = "\"refId\"")
+    private Integer refId;
 
     @Column(name = "code", unique = true)
     private String code;
@@ -31,21 +32,21 @@ public class CorEntity {
     @Column(name = "exchange")
     private String exchange;
 
-    @Column(name = "industry_name1")
+    @Column(name = "\"industryName1\"")
     private String industryName1;
 
-    @Column(name = "industry_name2")
+    @Column(name = "\"industryName2\"")
     private String industryName2;
 
-    @Column(name = "industry_name3")
+    @Column(name = "\"industryName3\"")
     private String industryName3;
 
-    @Column(name = "total_shares")
+    @Column(name = "\"totalShares\"")
     private BigInteger totalShares;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "first_trade_date")
+    @Column(name = "\"firstTradeDate\"")
     private LocalDate firstTradeDate;
 }
