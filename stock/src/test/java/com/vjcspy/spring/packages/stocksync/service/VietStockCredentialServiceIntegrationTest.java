@@ -1,7 +1,7 @@
 package com.vjcspy.spring.packages.stocksync.service;
 
 import com.vjcspy.spring.application.Application;
-import com.vjcspy.spring.packages.stocksync.client.vietstock.VietStockCredential;
+import com.vjcspy.spring.packages.stocksync.dto.vietstock.VietStockCredential;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

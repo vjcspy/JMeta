@@ -12,8 +12,23 @@ services:
     networks:
       - my-bridge-network
 
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    hostname: "java_demo_rabbitmq"
+    container_name: "java_demo_rabbitmq"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq3:/var/lib/rabbitmq/
+      # - ./docker_data/rabbitmq/log/:/var/log/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=123456aA@
+
 volumes:
   pg_data:
+  rabbitmq3:
 
 networks:
   my-bridge-network:

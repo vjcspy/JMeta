@@ -1,5 +1,5 @@
 /* (C) 2024 */
-package com.vjcspy.spring.packages.stocksync.client.vietstock;
+package com.vjcspy.spring.packages.stocksync.dto.vietstock;
 
 import lombok.Builder;
 import lombok.Data;

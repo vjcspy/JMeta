@@ -2,8 +2,9 @@
 package com.vjcspy.spring.packages.stocksync.service;
 
 
-import com.vjcspy.spring.packages.stocksync.client.vietstock.VietStockCredential;
+import com.vjcspy.spring.packages.stocksync.dto.vietstock.VietStockCredential;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,35 +13,38 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@Slf4j
 public class VietStockCredentialService {
-    @Autowired
-    private RestTemplate restTemplate;
 
     private VietStockCredential cachedCredentials;
+    private OkHttpClient client = new OkHttpClient();
+
+    public VietStockCredentialService(RestTemplate restTemplate) {
+    }
 
     public VietStockCredential retrieveCredentials() {
         if (cachedCredentials == null) {
-            String loggedCrds = loggedCookies();
-            String sid = "1i1225usk5lljrcwny0tmffl";
-            String rvt =
-                    "nLE53UKUb9eZX-5Nv3aMQ4jYuOZ-2Y9nvkGXZ0dAM1TYu_7tHQPsDhyrKF87cZu423xFKHggL0kq-ywWhRMEe8ZKpoH7Lc8X2QDQ0YSrfZM1";
-            String vtsUsrLg =
-                    "3C423246818F0E3528187CCAAC8884C7DC2AC16F9370B0F46310C7C97868240303DA0954B5ABFD2F42DBFAD6F7E849A820ED218753FBE20CFE166B2C0CF57CB3781FC08C58FD42AB62243B08DB47839FD9C85C2C1492899C1E2EAA852FB5384C5967E0EA4C74D4E0A3D959F9FED70743D68F7E7139D3C4B3B60DC6D726AE60D2";
-            String usrTk = "wAoBVyA7RUuS5D/peNITBQ==";
+            var loggedCrds = loggedCookies();
+            String sid = "";
+            String rvt = "";
+            String vtsUsrLg = "";
+            String usrTk = "";
 
             Pattern pattern = Pattern.compile(
                     "(.*)(ASP.NET_SessionId=.*;)(.*)(__RequestVerificationToken=.*;)(.*)(vts_usr_lg=.*;)(.*)(vst_usr_lg_token=.*;)(.*)");
-            Matcher matcher = pattern.matcher(loggedCrds);
+            Matcher matcher = pattern.matcher(loggedCrds.get("cookies"));
             if (matcher.find()) {
                 sid = extractValue(matcher.group(2));
                 rvt = extractValue(matcher.group(4));
@@ -48,7 +52,8 @@ public class VietStockCredentialService {
                 usrTk = extractValue(matcher.group(8));
             }
 
-            Map<String, String> csrfAfterLogin = retrieveCookiesAndCsrf(loggedCrds, false);
+            Map<String, String> csrfAfterLogin = retrieveCookiesAndCsrf(loggedCrds.get("cookies"), false);
+            assert csrfAfterLogin != null;
             cachedCredentials = VietStockCredential.builder()
                     .sid(sid)
                     .rvt(rvt)
@@ -61,72 +66,139 @@ public class VietStockCredentialService {
         return cachedCredentials;
     }
 
-    private String loggedCookies() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        var data = retrieveCookiesAndCsrf(null, true);
-        headers.add("cookie", data.get("cookies"));
+    private Map<String, String> loggedCookies() {
+        try {
+            Map<String, String> initialData = retrieveCookiesAndCsrf(null, true);
+            String cookies = Objects.requireNonNull(initialData).get("cookies");
+            String csrf = initialData.get("csrf");
 
-        HttpEntity<String> request = new HttpEntity<>(
-                "__RequestVerificationToken=" + data.get("csrf")
-                        + "&Email=dinhkhoi.le05%40gmail.com&Password=536723&responseCaptchaLoginPopup=&g-recaptcha-response=&Remember=false&X-Requested-With=XMLHttpRequest",
-                headers);
+            String url = "https://finance.vietstock.vn/Account/Login";
+            String requestBody = String.format(
+                    "__RequestVerificationToken=%s&Email=%s&Password=%s&responseCaptchaLoginPopup=&g-recaptcha-response=&Remember=false&X-Requested-With=XMLHttpRequest",
+                    csrf,
+                    "dinhkhoi.le05@gmail.com",
+                    "536723"
+            );
 
-        ResponseEntity<String> response = restTemplate.exchange(
-                "https://finance.vietstock.vn/Account/Login", HttpMethod.POST, request, String.class);
-        return Objects.requireNonNull(response.getHeaders().get("Set-Cookie")).toString();
+            RequestBody body = RequestBody.create(
+                    requestBody,
+                    okhttp3.MediaType.parse("application/x-www-form-urlencoded; charset=UTF-8")
+            );
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36")
+                    .addHeader("accept", "*/*")
+                    .addHeader("accept-language", "vi,en-US;q=0.9,en;q=0.8")
+                    .addHeader("cache-control", "no-cache")
+                    .addHeader("content-type", "application/x-www-form-urlencoded; charset=UTF-8")
+                    .addHeader("pragma", "no-cache")
+                    .addHeader("sec-ch-ua", "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"")
+                    .addHeader("sec-ch-ua-mobile", "?0")
+                    .addHeader("sec-ch-ua-platform", "\"macOS\"")
+                    .addHeader("sec-fetch-dest", "empty")
+                    .addHeader("sec-fetch-mode", "cors")
+                    .addHeader("sec-fetch-site", "same-origin")
+                    .addHeader("x-requested-with", "XMLHttpRequest")
+                    .addHeader("cookie", cookies)
+                    .addHeader("Referer", "https://finance.vietstock.vn/doanh-nghiep-a-z/danh-sach-niem-yet?page=1")
+                    .addHeader("Referrer-Policy", "strict-origin-when-cross-origin")
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+                if (!response.isSuccessful()) {
+                    log.info("Login error, status: {}", response.code());
+                    return new HashMap<>();
+                }
+
+                // In nội dung response sau khi login
+                assert response.body() != null;
+                log.info("login vietstock res: {}", response.body().string());
+
+                // Lấy cookies từ response sau khi đăng nhập
+                String cookiesAfterLogin = parseCookies(response.headers("Set-Cookie"));
+
+                Map<String, String> result = new HashMap<>();
+                result.put("cookies", cookies + "; " + cookiesAfterLogin);
+
+                return result;
+            }
+        } catch (IOException e) {
+            log.error("VietStock Login error");
+        }
+
+        return new HashMap<>();
     }
 
     private Map<String, String> retrieveCookiesAndCsrf(String initCookies, boolean needCookie) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(
-                "accept",
-                "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
-        headers.add("accept-language", "vi,en-US;q=0.9,en;q=0.8");
-        headers.add("cache-control", "no-cache");
-        headers.add("pragma", "no-cache");
-        headers.add("sec-ch-ua", "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"");
-        headers.add("sec-ch-ua-mobile", "?0");
-        headers.add("sec-ch-ua-platform", "\"macOS\"");
-        headers.add("sec-fetch-dest", "document");
-        headers.add("sec-fetch-mode", "navigate");
-        headers.add("sec-fetch-site", "same-origin");
-        headers.add("sec-fetch-user", "?1");
-        headers.add("upgrade-insecure-requests", "1");
-        headers.add("Referer", "https://www.google.com/");
-        headers.add("Referrer-Policy", "origin");
+        String url = "https://finance.vietstock.vn/doanh-nghiep-a-z/danh-sach-niem-yet?page=1";
 
+        // Tạo request với các header giống như trong HttpHeaders
+        Request.Builder requestBuilder = new Request.Builder()
+                .url(url)
+                .get()
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36")
+                .addHeader("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+                .addHeader("accept-language", "vi,en-US;q=0.9,en;q=0.8")
+                .addHeader("cache-control", "no-cache")
+                .addHeader("pragma", "no-cache")
+                .addHeader("sec-ch-ua", "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"")
+                .addHeader("sec-ch-ua-mobile", "?0")
+                .addHeader("sec-ch-ua-platform", "\"macOS\"")
+                .addHeader("sec-fetch-dest", "document")
+                .addHeader("sec-fetch-mode", "navigate")
+                .addHeader("sec-fetch-site", "same-origin")
+                .addHeader("sec-fetch-user", "?1")
+                .addHeader("upgrade-insecure-requests", "1")
+                .addHeader("Referer", "https://www.google.com/")
+                .addHeader("Referrer-Policy", "origin");
+
+        // Thêm cookie vào header nếu có
         if (initCookies != null) {
-            headers.add("cookie", initCookies);
+            requestBuilder.addHeader("cookie", initCookies);
         }
 
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(
-                "https://finance.vietstock.vn/doanh-nghiep-a-z/danh-sach-niem-yet?page=1",
-                HttpMethod.GET,
-                entity,
-                String.class);
+        // Tạo request
+        Request request = requestBuilder.build();
 
-        // Lấy CSRF token từ HTML
-        Document doc = Jsoup.parse(response.getBody());
-        Element csrfInput = doc.select("[name=__RequestVerificationToken]").first();
-        String csrf = csrfInput != null ? csrfInput.attr("value") : "";
+        // Thực hiện request và xử lý response
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response);
+            }
 
-        // Lấy cookies nếu cần
-        String cookies = needCookie ? parseCookies(response.getHeaders()) : "";
-        Map<String, String> data = new HashMap<>();
-        data.put("csrf", csrf);
-        data.put("cookies", cookies);
+            // Parse HTML để lấy CSRF token từ body response
+            assert response.body() != null;
+            String responseBody = response.body().string();
+            Document doc = Jsoup.parse(responseBody);
+            Element csrfInput = doc.select("[name=__RequestVerificationToken]").first();
+            String csrf = csrfInput != null ? csrfInput.attr("value") : "";
 
-        return data;
+            // Lấy cookies từ header response nếu cần
+            String cookies = "";
+            if (needCookie) {
+                cookies = parseCookies(response.headers("Set-Cookie"));
+            }
+
+            // Trả về dữ liệu dưới dạng Map
+            Map<String, String> data = new HashMap<>();
+            data.put("csrf", csrf);
+            data.put("cookies", cookies);
+
+            return data;
+        } catch (IOException e) {
+            log.error("retrieveCookiesAndCsrf error", e);
+        }
+
+        return null;
     }
 
     private String extractValue(String cookie) {
         return cookie.substring(cookie.indexOf('=') + 1, cookie.length() - 1);
     }
 
-    private String parseCookies(HttpHeaders headers) {
-        List<String> rawCookies = headers.get("Set-Cookie");
+    private String parseCookies(List<String> rawCookies) {
         if (rawCookies == null) return "";
 
         return rawCookies.stream()

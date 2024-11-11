@@ -31,6 +31,7 @@ dependencies {
     // Environment & Utils
     implementation libs.dotenv
     implementation libs.jackson.annotations
+    implementation libs.jsonpath
 
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.3'
