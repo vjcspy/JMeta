@@ -1,6 +1,7 @@
 /* (C) 2024 */
 package com.vjcspy.spring.packages.stockinfo.controller;
 
+import com.vjcspy.spring.base.dto.response.OkResponse;
 import com.vjcspy.spring.packages.stockinfo.dto.CorEntityDto;
 import com.vjcspy.spring.packages.stockinfo.service.CorEntityService;
 import java.util.List;
@@ -23,8 +24,8 @@ public class CorEntityController {
      * @return ResponseEntity chứa List<CorEntityDto>
      */
     @GetMapping
-    public ResponseEntity<List<CorEntityDto>> getAllCorEntities() {
+    public ResponseEntity<OkResponse<?>> getAllCorEntities() {
         List<CorEntityDto> corEntityDtos = corEntityService.getAllCorEntities();
-        return ResponseEntity.ok(corEntityDtos);
+        return ResponseEntity.ok(OkResponse.of(corEntityDtos));
     }
 }
