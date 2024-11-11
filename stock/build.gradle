@@ -18,11 +18,19 @@ dependencies {
 	// ________________ Dependencies ________________
 	// Database
 	runtimeOnly 'org.postgresql:postgresql'
+	implementation group: 'org.jsoup', name: 'jsoup', version: '1.7.2'
 
 	// ________________ Project dependencies ________________
 	implementation project(':shared:event-manager')
 	implementation project(':shared:spring-base')
 	implementation project(':shared:tedbed')
+}
+
+test {
+	testLogging {
+		events "passed", "skipped", "failed" // Hiển thị kết quả các test
+		showStandardStreams = true // Hiển thị System.out và System.err
+	}
 }
 
 tasks.register('dev') {
