@@ -2,21 +2,23 @@ package com.vjcspy.spring.base.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vjcspy.spring.base.exception.constant.ErrorCode;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @Builder(access = AccessLevel.PRIVATE)
-public class ErrorResponse {
+public class ErrorResponse implements BaseResponse<Object> {
+    @Builder.Default
+    private final boolean success = false;
+
     private final String code;                   // Internal error code
     private final String message;                // Error message
     private final int httpStatus;                // HTTP status code
@@ -26,7 +28,25 @@ public class ErrorResponse {
     private final LocalDateTime timestamp;       // Error timestamp
 
     private final String path;                   // Request path
-    private final Map<String, Object> details;   // Additional error details
+
+    @Builder.Default
+    private final Object data = null;            // Implement BaseResponse interface
+
+    @Builder.Default
+    private final List<ValidationError> errors = new ArrayList<>();  // Validation errors
+
+    @Builder.Default
+    private final List<String> stackTrace = new ArrayList<>();      // Stack trace for debugging
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class ValidationError {
+        private final String field;
+        private final String code;
+        private final String message;
+        private final Object rejectedValue;
+    }
 
     public static ErrorResponse of(ErrorCode errorCode, String path) {
         return ErrorResponse.builder()
@@ -36,7 +56,6 @@ public class ErrorResponse {
                 .httpStatusText(errorCode.getHttpStatus().getReasonPhrase())
                 .timestamp(LocalDateTime.now())
                 .path(path)
-                .details(new HashMap<>())
                 .build();
     }
 
@@ -48,14 +67,26 @@ public class ErrorResponse {
                 .httpStatusText(status.getReasonPhrase())
                 .timestamp(LocalDateTime.now())
                 .path(path)
-                .details(new HashMap<>())
                 .build();
     }
 
-    public ErrorResponse withDetail(String key, Object value) {
-        Map<String, Object> newDetails = new HashMap<>(this.details);
-        newDetails.put(key, value);
+    public static ErrorResponse of(String code, String message, HttpStatus status, String path,
+                                   List<ValidationError> errors) {
+        return ErrorResponse.builder()
+                .code(code)
+                .message(message)
+                .httpStatus(status.value())
+                .httpStatusText(status.getReasonPhrase())
+                .timestamp(LocalDateTime.now())
+                .path(path)
+                .errors(errors)
+                .build();
+    }
 
+    public ErrorResponse withStackTrace(Throwable ex) {
+        List<String> stackTrace = Arrays.stream(ex.getStackTrace())
+                .map(StackTraceElement::toString)
+                .collect(Collectors.toList());
         return ErrorResponse.builder()
                 .code(this.code)
                 .message(this.message)
@@ -63,17 +94,42 @@ public class ErrorResponse {
                 .httpStatusText(this.httpStatusText)
                 .timestamp(this.timestamp)
                 .path(this.path)
-                .details(newDetails)
+                .errors(this.errors)
+                .stackTrace(stackTrace)
                 .build();
     }
 
-    public Map<String, Object> getDetails() {
-        return Collections.unmodifiableMap(details);
+    public ErrorResponse addValidationError(String field, String code, String message, Object rejectedValue) {
+        ValidationError error = ValidationError.builder()
+                .field(field)
+                .code(code)
+                .message(message)
+                .rejectedValue(rejectedValue)
+                .build();
+        this.errors.add(error);
+        return this;
     }
 
-    public ErrorResponse addDetail(String key, Object value) {
-        this.details.put(key, value);
+    public List<ValidationError> getErrors() {
+        return Collections.unmodifiableList(errors);
+    }
 
-        return this;
+    public List<String> getStackTrace() {
+        return Collections.unmodifiableList(stackTrace);
+    }
+
+    @Override
+    public boolean isSuccess() {
+        return false;
+    }
+
+    @Override
+    public String getMessage() {
+        return this.message;
+    }
+
+    @Override
+    public Object getData() {
+        return this.data;
     }
 }
