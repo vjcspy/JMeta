@@ -16,9 +16,8 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	// ________________ Dependencies ________________
-	// Database
-	runtimeOnly 'org.postgresql:postgresql'
-	implementation group: 'org.jsoup', name: 'jsoup', version: '1.7.2'
+	runtimeOnly 'org.postgresql:postgresql' // database
+	implementation group: 'org.jsoup', name: 'jsoup', version: '1.7.2' // html parse
 
 	// ________________ Project dependencies ________________
 	implementation project(':shared:event-manager')
