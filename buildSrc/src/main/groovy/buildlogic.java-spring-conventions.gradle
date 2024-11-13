@@ -14,6 +14,7 @@ dependencies {
 
     // Reactive & Network
     implementation libs.rxjava
+    implementation libs.rxkotlin
     implementation libs.bundles.retrofit
 
     // OpenAPI Documentation

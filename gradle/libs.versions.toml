@@ -10,6 +10,7 @@ springDependencyManagement = "1.1.6"
 
 # Core Libraries
 rxjava = "3.1.9"
+rxkotlin = "3.0.1"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
 jackson = "2.18.1"
@@ -47,6 +48,7 @@ kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", v
 
 # Reactive & Network Libraries
 rxjava = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
+rxkotlin = { group = "io.reactivex.rxjava3", name = "rxkotlin", version.ref = "rxkotlin" }
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 retrofit-adapter-rxjava3 = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref = "retrofit" }
