@@ -1,3 +1,4 @@
+/* (C) 2024 */
 package com.vjcspy.spring.application.config;
 
 import org.springframework.context.annotation.Bean;

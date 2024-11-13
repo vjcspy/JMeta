@@ -4,9 +4,7 @@ package com.vjcspy.spring.packages.stockinfo.controller;
 import com.vjcspy.spring.base.dto.response.OkResponse;
 import com.vjcspy.spring.packages.stockinfo.dto.CorEntityDto;
 import com.vjcspy.spring.packages.stockinfo.service.CorEntityService;
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

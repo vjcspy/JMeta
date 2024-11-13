@@ -1,12 +1,13 @@
+/* (C) 2024 */
 package com.vjcspy.spring.packages.stocksync.service;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import com.vjcspy.spring.application.Application;
 import com.vjcspy.spring.packages.stocksync.dto.vietstock.VietStockCredential;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = Application.class)
 public class VietStockCredentialServiceIntegrationTest {

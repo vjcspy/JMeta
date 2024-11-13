@@ -1,9 +1,13 @@
 plugins {
-	id 'buildlogic.java-spring-conventions'
+	id 'buildlogic.kotlin-spring-conventions'
 
 	// spring
 	alias(libs.plugins.spring.boot)
 	alias(libs.plugins.spring.dependency)
+
+	// Spring kotlin
+	alias(libs.plugins.kotlin.spring)
+	alias(libs.plugins.kotlin.jpa)
 
 	// spotless
 	alias(libs.plugins.spotless)

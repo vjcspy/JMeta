@@ -1,9 +1,7 @@
 /* (C) 2024 */
 package com.vjcspy.spring.packages.stocksync.service;
 
-
 import com.vjcspy.spring.packages.stocksync.dto.vietstock.VietStockCredential;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +10,6 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -31,8 +28,7 @@ public class VietStockCredentialService {
     private VietStockCredential cachedCredentials;
     private OkHttpClient client = new OkHttpClient();
 
-    public VietStockCredentialService(RestTemplate restTemplate) {
-    }
+    public VietStockCredentialService(RestTemplate restTemplate) {}
 
     public VietStockCredential retrieveCredentials() {
         if (cachedCredentials == null) {
@@ -75,26 +71,24 @@ public class VietStockCredentialService {
             String url = "https://finance.vietstock.vn/Account/Login";
             String requestBody = String.format(
                     "__RequestVerificationToken=%s&Email=%s&Password=%s&responseCaptchaLoginPopup=&g-recaptcha-response=&Remember=false&X-Requested-With=XMLHttpRequest",
-                    csrf,
-                    "dinhkhoi.le05@gmail.com",
-                    "536723"
-            );
+                    csrf, "dinhkhoi.le05@gmail.com", "536723");
 
             RequestBody body = RequestBody.create(
-                    requestBody,
-                    okhttp3.MediaType.parse("application/x-www-form-urlencoded; charset=UTF-8")
-            );
+                    requestBody, okhttp3.MediaType.parse("application/x-www-form-urlencoded; charset=UTF-8"));
 
             Request request = new Request.Builder()
                     .url(url)
                     .post(body)
-                    .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36")
+                    .addHeader(
+                            "User-Agent",
+                            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36")
                     .addHeader("accept", "*/*")
                     .addHeader("accept-language", "vi,en-US;q=0.9,en;q=0.8")
                     .addHeader("cache-control", "no-cache")
                     .addHeader("content-type", "application/x-www-form-urlencoded; charset=UTF-8")
                     .addHeader("pragma", "no-cache")
-                    .addHeader("sec-ch-ua", "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"")
+                    .addHeader(
+                            "sec-ch-ua", "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"")
                     .addHeader("sec-ch-ua-mobile", "?0")
                     .addHeader("sec-ch-ua-platform", "\"macOS\"")
                     .addHeader("sec-fetch-dest", "empty")
@@ -138,8 +132,12 @@ public class VietStockCredentialService {
         Request.Builder requestBuilder = new Request.Builder()
                 .url(url)
                 .get()
-                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36")
-                .addHeader("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+                .addHeader(
+                        "User-Agent",
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36")
+                .addHeader(
+                        "accept",
+                        "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
                 .addHeader("accept-language", "vi,en-US;q=0.9,en;q=0.8")
                 .addHeader("cache-control", "no-cache")
                 .addHeader("pragma", "no-cache")
