@@ -26,6 +26,7 @@ slf4j = "2.0.16"
 logback = "1.5.12"
 janino = "3.1.12"
 logstash_logback_version = "8.0"
+kotlin-logging = "7.0.0"
 # Documentation
 springdoc = "2.6.0"
 
@@ -70,6 +71,7 @@ slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
 logback-classic = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
 janino = { group = "org.codehaus.janino", name = "janino", version.ref = "janino" }
 logstash-logback = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash_logback_version" }
+kotlin-logging-jvm = { module = "io.github.oshai:kotlin-logging-jvm", version.ref = "kotlin-logging" }
 
 # API Documentation
 springdoc-openapi-starter = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
@@ -79,4 +81,4 @@ dotenv = { group = "io.github.cdimascio", name = "java-dotenv", version.ref = "d
 
 [bundles]
 retrofit = ["retrofit-core", "retrofit-converter-gson", "retrofit-adapter-rxjava3", "okhttp-logging-interceptor"]
-logging = ["slf4j-api", "logback-classic", "logstash-logback", "janino"]
+logging = ["slf4j-api", "logback-classic", "logstash-logback", "janino", "kotlin-logging-jvm"]
