@@ -1,5 +1,5 @@
 plugins {
-    id 'buildlogic.java-spring-conventions'
+    id 'buildlogic.kotlin-spring-conventions'
 
     alias(libs.plugins.spring.boot) apply false
     alias(libs.plugins.spring.dependency)
