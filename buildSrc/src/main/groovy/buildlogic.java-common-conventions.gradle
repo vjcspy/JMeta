@@ -25,9 +25,6 @@ dependencies {
     annotationProcessor libs.mapstruct.processor
     annotationProcessor libs.lombok.mapstruct.binding
 
-    // Logging
-    implementation libs.bundles.logging
-
     // Environment & Utils
     implementation libs.dotenv
     implementation libs.jackson.annotations

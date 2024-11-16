@@ -8,6 +8,7 @@ plugins {
 	// Spring kotlin
 	alias(libs.plugins.kotlin.spring)
 	alias(libs.plugins.kotlin.jpa)
+	alias(libs.plugins.kotlin.plugin.serialization)
 
 	// spotless
 	alias(libs.plugins.spotless)

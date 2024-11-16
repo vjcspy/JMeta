@@ -15,7 +15,7 @@ dependencies {
     // Reactive & Network
     implementation libs.rxjava
     implementation libs.rxkotlin
-    implementation libs.bundles.retrofit
+    implementation libs.bundles.ktor.http.client
 
     // OpenAPI Documentation
     implementation libs.springdoc.openapi.starter

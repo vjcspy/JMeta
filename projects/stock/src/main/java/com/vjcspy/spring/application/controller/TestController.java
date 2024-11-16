@@ -1,7 +1,6 @@
 /* (C) 2024 */
 package com.vjcspy.spring.application.controller;
 
-import com.vjcspy.spring.base.BaseService;
 import com.vjcspy.spring.base.config.Env;
 import com.vjcspy.spring.base.exception.BusinessException;
 import com.vjcspy.spring.base.exception.constant.ErrorCode;
@@ -17,15 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class TestController {
     @Autowired
-    private BaseService baseService;
-
-    @Autowired
     private Env env;
 
     @GetMapping
     public ResponseEntity<String> getMessage() {
         log.info("getMessage");
-        return ResponseEntity.ok(baseService.message());
+        return ResponseEntity.ok("OK");
     }
 
     @GetMapping("/error")

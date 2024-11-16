@@ -1,9 +1,7 @@
 /* (C) 2024 */
 package com.vjcspy.spring.packages.stocksync.controller;
 
-import com.vjcspy.eventmanager.EventManager;
 import com.vjcspy.spring.base.dto.response.OkResponse;
-import com.vjcspy.spring.packages.stocksync.reactive.actions.StockSyncActions;
 import com.vjcspy.spring.packages.stocksync.service.CorService;
 import com.vjcspy.spring.packages.stocksync.service.VietStockCredentialService;
 import org.springframework.http.ResponseEntity;
@@ -34,15 +32,5 @@ public class StockSyncController {
     public ResponseEntity<OkResponse<?>> getAllCors(@RequestParam(defaultValue = "0") int page) {
         var data = corService.getCorporateData(page);
         return ResponseEntity.ok(OkResponse.of(data));
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<OkResponse<?>> test() {
-        EventManager.getInstance()
-                .dispatch(StockSyncActions.Cor.corLoadPagePayloadActionFactory.create(
-                        StockSyncActions.Cor.CorLoadPagePayload.builder()
-                                .page(1)
-                                .build()));
-        return ResponseEntity.ok(OkResponse.of(null));
     }
 }

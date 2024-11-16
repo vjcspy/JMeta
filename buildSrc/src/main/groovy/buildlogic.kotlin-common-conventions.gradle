@@ -10,6 +10,11 @@ plugins {
 }
 
 dependencies {
-    implementation libs.jackson.module.kotlin
     implementation libs.kotlin.reflect
+
+    // Logging
+    implementation libs.bundles.logging
+
+    // jackson
+    implementation libs.jackson.module.kotlin
 }

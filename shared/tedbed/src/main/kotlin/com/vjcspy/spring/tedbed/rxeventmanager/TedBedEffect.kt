@@ -10,7 +10,7 @@ private val logger = KotlinLogging.logger {}
 @Component
 class TedBedEffect {
 
-    @Effect(types = [TestBedAction.BAR_TYPE])
+    @Effect(types = [TestBedAction.FOO_TYPE])
     fun handleUserEvents(): RxEventHandler {
         return RxEventHandler { upstream ->
             upstream.map {
