@@ -82,4 +82,10 @@ spotless {
 
 		licenseHeader '/* (C) $YEAR */' // or licenseHeaderFile
 	}
+
+	kotlin {
+		// by default the target is every '.kt' and '.kts` file in the java sourcesets
+		ktlint()   // has its own section below
+		licenseHeader '/* (C)$YEAR */' // or licenseHeaderFile
+	}
 }
