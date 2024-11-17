@@ -26,7 +26,7 @@ class StockSyncController(
     fun getAllCors(
         @RequestParam(defaultValue = "0") page: Int,
     ): ResponseEntity<OkResponse<*>> {
-        val data = corService.getCorporateData(page)
+        val data = corService.getCorporateData(page).blockingGet()
         return ResponseEntity.ok(OkResponse.of(data))
     }
 }

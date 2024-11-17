@@ -1,14 +1,16 @@
 // (mr.vjcspy@gmail.com) 2024
 package com.vjcspy.spring.packages.stocksync.service
 
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.vjcspy.spring.packages.stocksync.dto.vietstock.CorporateData
 import com.vjcspy.spring.packages.stocksync.dto.vietstock.VietStockCredential
 import io.github.oshai.kotlinlogging.KotlinLogging
+import io.ktor.client.call.body
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import kotlinx.coroutines.runBlocking
+import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.rx3.rxSingle
+import kotlinx.serialization.json.Json
 import org.springframework.stereotype.Service
 
 @Service
@@ -17,12 +19,8 @@ class CorService(
 ) {
     private val logger = KotlinLogging.logger {}
 
-    companion object {
-        private val objectMapper = ObjectMapper()
-    }
-
-    fun getCorporateData(page: Int): List<Map<String, Any>>? =
-        runBlocking {
+    fun getCorporateData(page: Int): Single<List<CorporateData>> {
+        return rxSingle {
             try {
                 val credential = vietStockCredentialService.retrieveCredentials()
 
@@ -37,19 +35,16 @@ class CorService(
                     }
 
                 if (response.status.isSuccess()) {
-                    objectMapper.readValue(
-                        response.bodyAsText(),
-                        object : TypeReference<List<Map<String, Any>>>() {},
-                    )
+                    return@rxSingle Json.decodeFromString<List<CorporateData>>(response.bodyAsText())
                 } else {
-                    error { "Failed to get corporate data. Status: ${response.status}" }
-                    null
+                    throw Exception("Failed to fetch data, status: ${response.status}")
                 }
             } catch (ex: Exception) {
                 logger.error(ex) { "Error getting Corporate data" }
-                null
+                throw ex
             }
         }
+    }
 
     private fun buildRequestBody(
         page: Int,

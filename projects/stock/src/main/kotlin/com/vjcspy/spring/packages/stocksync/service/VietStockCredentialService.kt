@@ -5,6 +5,8 @@ import com.vjcspy.spring.packages.stocksync.dto.vietstock.VietStockCredential
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -25,7 +27,12 @@ class VietStockCredentialService {
                     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36"
             }
             install(HttpTimeout) {
-                requestTimeoutMillis = 30000
+                requestTimeoutMillis = 10_000 // Timeout toàn bộ request
+                connectTimeoutMillis = 5_000 // Timeout kết nối
+                socketTimeoutMillis = 5_000 // Timeout socket
+            }
+            install(Logging) {
+                level = LogLevel.INFO
             }
             defaultRequest {
                 header("Accept", "*/*")
