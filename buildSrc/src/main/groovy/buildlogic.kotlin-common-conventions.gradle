@@ -10,7 +10,7 @@ plugins {
 }
 
 dependencies {
-    implementation libs.kotlin.reflect
+    implementation libs.bundles.kotlin.core
 
     // Logging
     implementation libs.bundles.logging

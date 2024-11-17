@@ -1,92 +1,101 @@
 plugins {
-	id 'buildlogic.kotlin-spring-conventions'
+    id 'buildlogic.kotlin-spring-conventions'
 
-	// spring
-	alias(libs.plugins.spring.boot)
-	alias(libs.plugins.spring.dependency)
+    // Kotlin KSP (annotation processor)
+    alias(libs.plugins.kotlin.ksp)
 
-	// Spring kotlin
-	alias(libs.plugins.kotlin.spring)
-	alias(libs.plugins.kotlin.jpa)
-	alias(libs.plugins.kotlin.plugin.serialization)
+    // spring
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency)
 
-	// spotless
-	alias(libs.plugins.spotless)
+    // Spring kotlin
+    alias(libs.plugins.kotlin.spring)
+    alias(libs.plugins.kotlin.jpa)
+    alias(libs.plugins.kotlin.plugin.serialization)
+
+    // spotless
+    alias(libs.plugins.spotless)
 }
 
 dependencies {
-	// Spring Boot
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // Spring Boot
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	// ________________ Dependencies ________________
-	runtimeOnly 'org.postgresql:postgresql' // database
-	implementation group: 'org.jsoup', name: 'jsoup', version: '1.7.2' // html parse
+    // ________________ Dependencies ________________
+    runtimeOnly 'org.postgresql:postgresql' // database
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.7.2' // html parse
 
-	// ________________ Project dependencies ________________
-	implementation project(':shared:event-manager')
-	implementation project(':shared:spring-base')
-	implementation project(':shared:tedbed')
+    // ________________ Project dependencies ________________
+    implementation project(':shared:event-manager')
+    implementation project(':shared:spring-base')
+    implementation project(':shared:tedbed')
 }
 
 test {
-	testLogging {
-		events "passed", "skipped", "failed" // Hiển thị kết quả các test
-		showStandardStreams = true // Hiển thị System.out và System.err
-	}
+    testLogging {
+        events "passed", "skipped", "failed" // Hiển thị kết quả các test
+        showStandardStreams = true // Hiển thị System.out và System.err
+    }
 }
 
 tasks.register('dev') {
-	doFirst {
-		// Start continuous build in background
-		ProcessBuilder buildProcess = new ProcessBuilder(
-				isWindows() ? 'gradlew.bat' : './gradlew',
-				':stock:build',
-				'--continuous'
-		)
-		buildProcess.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-		buildProcess.redirectError(ProcessBuilder.Redirect.INHERIT)
-		buildProcess.start()
-	}
+    doFirst {
+        // Start continuous build in background
+        ProcessBuilder buildProcess = new ProcessBuilder(
+                isWindows() ? 'gradlew.bat' : './gradlew',
+                ':stock:build',
+                '--continuous'
+        )
+        buildProcess.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+        buildProcess.redirectError(ProcessBuilder.Redirect.INHERIT)
+        buildProcess.start()
+    }
 
-	finalizedBy(':stock:bootRun')
+    finalizedBy(':stock:bootRun')
 }
 
 static def isWindows() {
-	return System.getProperty('os.name').toLowerCase().contains('windows')
+    return System.getProperty('os.name').toLowerCase().contains('windows')
 }
 
 spotless {
-	format 'misc', {
-		// define the files to apply `misc` to
-		target '*.gradle', '.gitattributes', '.gitignore'
+    format 'misc', {
+        target '*.gradle', '.gitattributes', '.gitignore'
+        trimTrailingWhitespace()
+        indentWithSpaces(4)  // Using spaces is more consistent across IDEs
+        endWithNewline()
+    }
 
-		// define the steps to apply to those files
-		trimTrailingWhitespace()
-		indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
-		endWithNewline()
-	}
-	java {
-		target '**/src/**/*.java'
+    java {
+        target '**/src/**/*.java'
+        toggleOffOn()  // Allows disabling formatting with comments
+        importOrder()
+        cleanthat()
+        palantirJavaFormat()
+        formatAnnotations()
+        licenseHeader '/* (C) $YEAR */'
+        removeUnusedImports()
+    }
 
-		// Use the default importOrder configuration
-		importOrder()
+    kotlin {
+        target 'src/*/kotlin/**/*.kt', 'src/*/kotlin/**/*.kts'
+        trimTrailingWhitespace()
+        indentWithSpaces(4)
+        endWithNewline()
 
-		// Cleanthat will refactor your code, but it may break your style: apply it before your formatter
-		cleanthat()          // has its own section below
+        ktlint()
+                .editorConfigOverride([
+                        'ktlint_standard_no-wildcard-imports': 'disabled',
+                        'ij_kotlin_imports_layout': '*',
+                        'ij_kotlin_allow_trailing_comma': true,
+                        'ij_kotlin_allow_trailing_comma_on_call_site': true,
+                        'max_line_length': '120',
+                        'insert_final_newline': true,
+                        'indent_size': '4'
+                ])
 
-		// formatters.
-		palantirJavaFormat()
-
-		formatAnnotations()  // fixes formatting of type annotations, see below
-
-		licenseHeader '/* (C) $YEAR */' // or licenseHeaderFile
-	}
-
-	kotlin {
-		// by default the target is every '.kt' and '.kts` file in the java sourcesets
-		ktlint()   // has its own section below
-		licenseHeader '/* (C)$YEAR */' // or licenseHeaderFile
-	}
+        licenseHeader '/* (C) $YEAR */'
+    }
 }

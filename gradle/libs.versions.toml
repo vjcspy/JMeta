@@ -1,160 +1,180 @@
 [versions]
-# Kotlin & Related Technologies
-# Core Kotlin version for language features and standard library
+# ======= Kotlin & Related Technologies =======
+# Core Kotlin version - provides language features and standard library
 kotlin = "2.0.21"
-# Support for RxJava 3 integration with Kotlin Coroutines
+# Kotlin Symbol Processing (KSP) - Kotlin's annotation processing tool
+ksp = "2.0.21-1.0.28"
+# Coroutines RxJava integration - bridges between Kotlin Coroutines and RxJava
 kotlinx-coroutines-rx3 = "1.9.0"
-# Kotlin's native JSON serialization library
+# Official Kotlin JSON serialization - type-safe JSON processing
 kotlinx-serialization-json = "1.7.3"
-# Kotlin-first HTTP client framework by JetBrains
+# Ktor - Modern asynchronous HTTP client framework by JetBrains
 ktor = "3.0.1"
 
-# Spring Framework
-# Core Spring Boot framework version
+# ======= Spring Framework Stack =======
+# Spring Boot - Core framework for building production-ready applications
 springBoot = "3.3.4"
-# Plugin for managing Spring dependencies versions
+# Spring Dependency Management - Centralized dependency versions for Spring projects
 springDependencyManagement = "1.1.6"
-# OpenAPI documentation generator for Spring Boot
+# SpringDoc - OpenAPI (Swagger) documentation generator for Spring Boot
 springdoc = "2.6.0"
 
-# Network & Reactive Libraries
-# HTTP client library for making network requests
+# ======= HTTP & Network Libraries =======
+# OkHttp - Efficient HTTP client by Square
 okhttp = "4.12.0"
-# Type-safe HTTP client for Java and Android
+# Retrofit - Type-safe HTTP client for Java/Kotlin
 retrofit = "2.11.0"
-# Reactive Extensions Library for Java
+# RxJava - Reactive Extensions for the JVM
 rxjava = "3.1.9"
-# Kotlin extensions for RxJava
+# RxKotlin - Kotlin extensions for RxJava
 rxkotlin = "3.0.1"
 
-# JSON & Data Processing
-# JSON processing library for Java
+# ======= JSON Processing =======
+# Jackson - Flexible JSON processing library
 jackson = "2.18.1"
-# Library for reading JSON documents using JsonPath
+# JsonPath - XPath-like syntax for JSON document traversal
 jsonpath = "2.7.0"
 
-# Logging Stack
-# Java compiler for dynamic code generation (used by logback)
+# ======= Logging Infrastructure =======
+# Janino - Java compiler for dynamic code generation (used by Logback)
 janino = "3.1.12"
-# Kotlin logging facade
+# Kotlin Logging - Idiomatic Kotlin logging facade
 kotlin-logging = "7.0.0"
-# Logging framework implementation
+# Logback - Reliable logging framework implementation
 logback = "1.5.12"
-# Logback encoder for JSON logging format
+# Logstash Encoder - JSON formatting for logs
 logstash_logback_version = "8.0"
-# Logging facade for Java
+# SLF4J - Simple Logging Facade for Java
 slf4j = "2.0.16"
 
-# Development Tools
-# Java annotation library to reduce boilerplate code
+# ======= Development Tools =======
+# Lombok - Reduces boilerplate code through annotations
 lombok = "1.18.34"
-# Integration between Lombok and MapStruct
+# Lombok-MapStruct Binding - Integration between Lombok and MapStruct
 lombok-mapstruct-binding = "0.2.0"
-# Code generation for Java bean mappings
+# MapStruct - Type-safe bean mapping generation
 mapstruct = "1.5.5.Final"
-# Code formatter plugin
+# Spotless - Code formatting enforcement
 spotless = "7.0.0.BETA4"
 
-# Utilities
-# .env file loader for Java
+# ======= Utilities =======
+# Dotenv - Environment configuration from .env files
 dotenv = "5.2.2"
 
 [plugins]
-# Kotlin JPA plugin for better JPA support in Kotlin
+# ======= Kotlin Plugins =======
+# JPA support for Kotlin
 kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin" }
-# Kotlin serialization plugin for JSON processing
+# Kotlin serialization compiler plugin
 kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-# Kotlin Spring plugin for better Spring Framework support
+# Enhanced Spring Framework support for Kotlin
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
-# Spring Boot plugin for building Spring Boot applications
+# Kotlin Symbol Processing plugin
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+# ======= Spring Plugins =======
+# Spring Boot application plugin
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
-# Spring dependency management plugin
+# Spring dependency management
 spring-dependency = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
-# Code formatting plugin
+
+# ======= Code Quality Plugins =======
+# Code formatting and style enforcement
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 
 [libraries]
-# Kotlin Core - Basic Kotlin language support
-# Kotlin reflection library for runtime type inspection
+# ======= Kotlin Core Libraries =======
+# Runtime reflection capabilities
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
-# Kotlin Gradle plugin for building Kotlin projects
+# Kotlin Gradle plugin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+# KSP API for annotation processing
+kotlin-ksp-symbol-processing-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 
-# Ktor HTTP Client - Modern HTTP client for Kotlin
+# ======= Ktor HTTP Client Stack =======
 # Coroutine-based I/O implementation
 ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
-# Content negotiation support for different formats (JSON, XML, etc.)
+# Content negotiation support
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
-# Core Ktor client functionality
+# Core client functionality
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
-# Request/response logging capabilities
+# Request/response logging
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
-# OkHttp engine implementation for Ktor
+# OkHttp engine implementation
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 
-# Kotlin Extensions - Additional Kotlin functionality
-# RxJava 3 integration with Kotlin Coroutines
+# ======= Kotlin Extensions =======
+# RxJava 3 coroutines integration
 coroutines-rx3 = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-rx3", version.ref = "kotlinx-coroutines-rx3" }
-# Kotlin serialization library for JSON processing
+# JSON serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 
-# Reactive & Network Libraries - Async programming support
-# Logging interceptor for OkHttp
+# ======= HTTP & Reactive Libraries =======
+# OkHttp logging capabilities
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
-# RxJava core library for reactive programming
+# RxJava core
 rxjava = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
-# Kotlin extensions for RxJava
+# Kotlin-specific RxJava extensions
 rxkotlin = { group = "io.reactivex.rxjava3", name = "rxkotlin", version.ref = "rxkotlin" }
 
-# JSON Processing - JSON handling libraries
-# Core Jackson annotations for JSON processing
+# ======= JSON Processing =======
+# Jackson core annotations
 jackson-annotations = { group = "com.fasterxml.jackson.core", name = "jackson-annotations", version.ref = "jackson" }
-# Jackson module for Kotlin support
+# Jackson Kotlin support
 jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
-# JsonPath for querying JSON documents
+# JSON querying support
 jsonpath = { group = "com.jayway.jsonpath", name = "json-path", version.ref = "jsonpath" }
 
-# Development Tools - Code generation and developer utilities
-# Lombok for reducing boilerplate code
+# ======= Development Tools =======
+# Boilerplate reduction
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
-# Integration between Lombok and MapStruct
+# Lombok-MapStruct integration
 lombok-mapstruct-binding = { group = "org.projectlombok", name = "lombok-mapstruct-binding", version.ref = "lombok-mapstruct-binding" }
-# MapStruct for object mapping
+# Object mapping framework
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
-# MapStruct annotation processor
+# MapStruct compiler
 mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
 
-# Logging Stack - Comprehensive logging solution
-# Java compiler for dynamic code generation
+# ======= Logging Stack =======
+# Dynamic code compilation for logging
 janino = { group = "org.codehaus.janino", name = "janino", version.ref = "janino" }
-# Kotlin logging facade
+# Kotlin logging API
 kotlin-logging-jvm = { module = "io.github.oshai:kotlin-logging-jvm", version.ref = "kotlin-logging" }
-# Logback classic module (main logging implementation)
+# Logging implementation
 logback-classic = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
-# JSON formatter for Logback
+# JSON log formatting
 logstash-logback = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash_logback_version" }
-# SLF4J API facade for logging
+# Logging facade
 slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
 
-# Documentation - API documentation tools
-# OpenAPI documentation generator for Spring Boot
+# ======= Documentation =======
+# OpenAPI/Swagger UI
 springdoc-openapi-starter = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
 
-# Utilities - Various utility libraries
-# Environment variable loader from .env files
+# ======= Utilities =======
+# Environment configuration
 dotenv = { group = "io.github.cdimascio", name = "java-dotenv", version.ref = "dotenv" }
 
 [bundles]
-# Bundle for complete logging setup
-logging = ["slf4j-api", "logback-classic", "logstash-logback", "janino", "kotlin-logging-jvm"]
+# Core Kotlin dependencies
+kotlin-core = ["kotlin-reflect", "kotlin-ksp-symbol-processing-api"]
 
-# Bundle for Ktor HTTP client with all necessary components
+# Complete logging setup
+logging = [
+    "slf4j-api", # Logging facade
+    "logback-classic", # Logging implementation
+    "logstash-logback", # JSON log formatting
+    "janino", # Dynamic compilation support
+    "kotlin-logging-jvm"  # Kotlin logging facade
+]
+
+# Comprehensive Ktor HTTP client setup
 ktor-http-client = [
-    "ktor-client-core",          # Core HTTP client functionality
-    "ktor-client-cio",          # Coroutine-based I/O
-    "ktor-client-okhttp",       # OkHttp engine
-    "ktor-client-logging",      # Request/response logging
+    "ktor-client-core", # Base functionality
+    "ktor-client-cio", # Coroutine I/O
+    "ktor-client-okhttp", # OkHttp engine
+    "ktor-client-logging", # Request/response logging
     "ktor-client-content-negotiation", # Content type handling
     "kotlinx-serialization-json", # JSON serialization
-    "coroutines-rx3"            # RxJava integration
+    "coroutines-rx3"                     # RxJava integration
 ]
