@@ -19,11 +19,8 @@ dependencies {
     }
 
     // Development Tools
-    compileOnly libs.lombok
-    annotationProcessor libs.lombok
     implementation libs.mapstruct
     annotationProcessor libs.mapstruct.processor
-    annotationProcessor libs.lombok.mapstruct.binding
 
     // Environment & Utils
     implementation libs.dotenv

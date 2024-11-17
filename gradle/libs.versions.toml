@@ -48,10 +48,6 @@ logstash_logback_version = "8.0"
 slf4j = "2.0.16"
 
 # ======= Development Tools =======
-# Lombok - Reduces boilerplate code through annotations
-lombok = "1.18.34"
-# Lombok-MapStruct Binding - Integration between Lombok and MapStruct
-lombok-mapstruct-binding = "0.2.0"
 # MapStruct - Type-safe bean mapping generation
 mapstruct = "1.5.5.Final"
 # Spotless - Code formatting enforcement
@@ -126,10 +122,6 @@ jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-
 jsonpath = { group = "com.jayway.jsonpath", name = "json-path", version.ref = "jsonpath" }
 
 # ======= Development Tools =======
-# Boilerplate reduction
-lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
-# Lombok-MapStruct integration
-lombok-mapstruct-binding = { group = "org.projectlombok", name = "lombok-mapstruct-binding", version.ref = "lombok-mapstruct-binding" }
 # Object mapping framework
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
 # MapStruct compiler
