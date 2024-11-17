@@ -1,4 +1,4 @@
-/* (C) 2024 */
+// (mr.vjcspy@gmail.com) 2024
 package com.vjcspy.spring.packages.stockinfo.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat

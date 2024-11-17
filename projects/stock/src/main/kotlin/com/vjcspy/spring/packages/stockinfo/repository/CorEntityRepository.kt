@@ -1,4 +1,4 @@
-/* (C) 2024 */
+// (mr.vjcspy@gmail.com) 2024
 package com.vjcspy.spring.packages.stockinfo.repository
 
 import com.vjcspy.spring.packages.stockinfo.entity.CorEntity

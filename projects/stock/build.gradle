@@ -82,6 +82,6 @@ spotless {
     kotlin {
         target '**/src/*/kotlin/**/*.kt', '**/src/*/kotlin/**/*.kts'
         ktlint()
-        licenseHeader '/* (C) $YEAR */'
+        licenseHeader '// (mr.vjcspy@gmail.com) $YEAR'
     }
 }
