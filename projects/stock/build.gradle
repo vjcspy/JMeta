@@ -29,6 +29,7 @@ dependencies {
 
     // ________________ Project dependencies ________________
     implementation project(':shared:event-manager')
+    implementation project(':shared:kotlin-utilities')
     implementation project(':shared:spring-base')
     implementation project(':shared:tedbed')
 }

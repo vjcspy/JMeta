@@ -11,4 +11,4 @@ plugins {
 }
 
 rootProject.name = 'JMeta'
-include('shared:tedbed', 'shared:event-manager', 'shared:spring-base', 'projects:stock')
+include('shared:kotlin-utilities','shared:tedbed', 'shared:event-manager', 'shared:spring-base', 'projects:stock')

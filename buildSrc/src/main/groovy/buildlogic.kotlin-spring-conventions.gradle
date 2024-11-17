@@ -8,3 +8,8 @@ plugins {
     // Apply the common convention plugin for shared build configuration between library and application projects.
     id 'buildlogic.kotlin-common-conventions'
 }
+
+dependencies{
+    implementation libs.rxkotlin
+    implementation libs.bundles.ktor.http.client
+}
