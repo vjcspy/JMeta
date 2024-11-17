@@ -1,4 +1,4 @@
-/* (C) 2024 */
+// (C) 2024
 package com.vjcspy.spring.packages.stockinfo.controller
 
 import com.vjcspy.spring.base.dto.response.OkResponse
@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/cors")
-class CorController(private val corEntityService: CorEntityService) {
-
+class CorController(
+    private val corEntityService: CorEntityService,
+) {
     /**
      * Lấy danh sách tất cả CorEntity
      *

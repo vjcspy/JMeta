@@ -23,7 +23,9 @@ class StockSyncController(
     }
 
     @GetMapping("/get-cors-from-viet-stock")
-    fun getAllCors(@RequestParam(defaultValue = "0") page: Int): ResponseEntity<OkResponse<*>> {
+    fun getAllCors(
+        @RequestParam(defaultValue = "0") page: Int,
+    ): ResponseEntity<OkResponse<*>> {
         val data = corService.getCorporateData(page)
         return ResponseEntity.ok(OkResponse.of(data))
     }

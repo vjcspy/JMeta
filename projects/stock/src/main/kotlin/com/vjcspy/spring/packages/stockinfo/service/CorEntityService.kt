@@ -7,7 +7,9 @@ import com.vjcspy.spring.packages.stockinfo.repository.CorEntityRepository
 import org.springframework.stereotype.Service
 
 @Service
-class CorEntityService(private val corEntityRepository: CorEntityRepository) {
+class CorEntityService(
+    private val corEntityRepository: CorEntityRepository,
+) {
     /**
      * Lấy danh sách tất cả CorEntity và chuyển sang CorEntityDto
      *

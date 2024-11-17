@@ -1,0 +1,28 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# Kotlin specific settings
+[*.{kt,kts}]
+# Disable wildcard imports
+ktlint_standard_no-wildcard-imports = disabled
+
+# Import layout configuration
+ij_kotlin_imports_layout = *
+
+# Allow trailing commas
+ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = true
+
+# Maximum line length
+max_line_length = 120

@@ -1,4 +1,4 @@
-/* (C) 2024 */
+// (C) 2024
 package com.vjcspy.spring.application.controller
 
 import com.vjcspy.spring.base.config.Env
@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/test")
-class TestController(private val env: Env) {
+class TestController(
+    private val env: Env,
+) {
     private val logger = KotlinLogging.logger {}
 
     @GetMapping
