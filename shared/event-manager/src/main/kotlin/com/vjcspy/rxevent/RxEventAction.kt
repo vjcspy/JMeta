@@ -18,3 +18,15 @@ data class RxEventAction<out T>(
             field = value
         }
 }
+
+inline fun <reified T> RxEventAction<*>.assertPayload(): T {
+    check(this.payload is T) {
+        "Payload is not of type ${T::class.simpleName}, but is of type ${
+            payload?.let {
+                it::class.simpleName
+            } ?: "null"
+        }"
+    }
+
+    return this.payload
+}
