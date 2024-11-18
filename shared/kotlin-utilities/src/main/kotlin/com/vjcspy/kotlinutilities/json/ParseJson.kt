@@ -1,9 +1,9 @@
 package com.vjcspy.kotlinutilities.json
 
-import io.github.oshai.kotlinlogging.KotlinLogging
+import com.vjcspy.kotlinutilities.log.KtLogging
 import kotlinx.serialization.json.*
 
-private val logger = KotlinLogging.logger {}
+private val logger = KtLogging.logger()
 
 /**
  * Parses a JSON string into native Kotlin types
@@ -16,7 +16,7 @@ fun parseJson(jsonString: String): Any? =
         val jsonElement = Json.parseToJsonElement(jsonString)
         parseJsonValue(jsonElement)
     } catch (e: Exception) {
-        logger.error(e) { "Parsing json error" }
+        logger.error("Parsing json error", e)
         null
     }
 

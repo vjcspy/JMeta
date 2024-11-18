@@ -1,9 +1,9 @@
 package com.vjcspy.spring.base.config
 
+import com.vjcspy.kotlinutilities.log.getLogger
 import com.vjcspy.rxevent.RxEventAction
 import com.vjcspy.rxevent.RxEventManager
 import com.vjcspy.spring.base.annotation.rxevent.Effect
-import io.github.oshai.kotlinlogging.KotlinLogging
 import io.reactivex.rxjava3.core.ObservableTransformer
 import java.lang.reflect.Method
 import org.jetbrains.annotations.NotNull
@@ -14,14 +14,16 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.util.ReflectionUtils
 
-private val logger = KotlinLogging.logger {}
-
 @Configuration
 open class EventManagerConfiguration {
+    private val logger = getLogger(this::class)
+
     @Bean
     open fun eventHandlerInitializer(): EventHandlerInitializer = EventHandlerInitializer()
 
     class EventHandlerInitializer : ApplicationListener<ContextRefreshedEvent> {
+        private val logger = getLogger(this::class)
+
         companion object {
             private var initialized = false
         }
@@ -30,7 +32,6 @@ open class EventManagerConfiguration {
             @NotNull event: ContextRefreshedEvent,
         ) {
             if (!initialized) {
-                logger.info { "Initializing Event Handlers" }
                 val applicationContext = event.applicationContext
                 registerEventHandlers(applicationContext)
                 initialized = true
@@ -38,7 +39,7 @@ open class EventManagerConfiguration {
         }
 
         private fun registerEventHandlers(applicationContext: ApplicationContext) {
-            logger.info { "Registering Event Handlers for all Effects" }
+            logger.info("Registering Event Handlers for all Effects")
             val beanNames = applicationContext.beanDefinitionNames
             for (beanName in beanNames) {
                 try {
@@ -49,7 +50,6 @@ open class EventManagerConfiguration {
                         { method -> method.isAnnotationPresent(Effect::class.java) },
                     )
                 } catch (e: Exception) {
-                    logger.debug { "Could not register event handler for $beanName error ${e.message}" }
                 }
             }
         }
@@ -77,27 +77,28 @@ open class EventManagerConfiguration {
                         val eventTypes = annotation.types
                         RxEventManager.registerEvent(eventTypes, eventHandler)
 
-                        logger.info {
+                        logger.info(
                             "Registered event handler for types: ${eventTypes.joinToString()} " +
-                                "from bean: ${bean.javaClass.simpleName}"
-                        }
+                                "from bean: ${bean.javaClass.simpleName}",
+                        )
                     } else {
-                        logger.warn {
+                        logger.warn(
                             "Method ${method.name} in ${bean.javaClass.simpleName} " +
-                                "returns ObservableTransformer but with wrong generic types"
-                        }
+                                "returns ObservableTransformer but with wrong generic types",
+                        )
                     }
                 } else {
-                    logger.warn {
+                    logger.warn(
                         "Method ${method.name} in ${bean.javaClass.simpleName} " +
-                            "does not return ObservableTransformer (actual type: ${handler?.javaClass})"
-                    }
+                            "does not return ObservableTransformer (actual type: ${handler?.javaClass})",
+                    )
                 }
             } catch (e: Exception) {
-                logger.error(e) {
+                logger.error(
                     "Failed to register event handler for method: ${method.name} " +
-                        "in bean: ${bean.javaClass.simpleName}"
-                }
+                        "in bean: ${bean.javaClass.simpleName}",
+                    e,
+                )
             }
         }
     }

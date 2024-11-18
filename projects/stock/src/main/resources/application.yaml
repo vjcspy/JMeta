@@ -1,6 +1,6 @@
 spring:
   application:
-    name: demo
+    name: stock-api
   datasource:
     url: jdbc:postgresql://localhost:5432/meta_stock
     username: root

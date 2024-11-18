@@ -2,7 +2,10 @@ package com.vjcspy.rxevent
 
 import java.util.*
 
-data class RxEventAction(val type: String, val payload: Any? = null) {
+data class RxEventAction(
+    val type: String,
+    val payload: Map<String, Any>? = null,
+) {
     var correlationId: UUID? = null
         set(value) {
             check(value != null) {

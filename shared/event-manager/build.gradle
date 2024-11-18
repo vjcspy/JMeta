@@ -9,4 +9,6 @@ plugins {
 dependencies {
     implementation libs.rxjava
     implementation libs.rxkotlin
+
+    implementation project(':shared:kotlin-utilities')
 }

@@ -1,6 +1,6 @@
 package com.vjcspy.rxevent
 
-import io.github.oshai.kotlinlogging.KotlinLogging
+import com.vjcspy.kotlinutilities.log.KtLogging
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -8,14 +8,13 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import java.util.UUID
 
-private val logger = KotlinLogging.logger {}
-
 class RxEventManager private constructor() {
     companion object {
         val actionSubject: PublishSubject<RxEventAction> = PublishSubject.create()
+        private val logger = KtLogging.logger()
 
         fun dispatch(action: RxEventAction) {
-            logger.info { "Dispatching action ${action.type}" }
+            logger.info("Dispatching action ${action.type}")
             if (action.correlationId == null) {
                 action.correlationId = UUID.randomUUID()
             }
@@ -60,10 +59,10 @@ class RxEventManager private constructor() {
                         dispatch(handledEvent)
                     },
                     onError = { error ->
-                        logger.error { "Error in event stream: ${error.message}" }
+                        logger.error("Error in event stream: ${error.message}")
                     },
                     onComplete = {
-                        logger.error { "Why Completed???" }
+                        logger.error("Why Completed???")
                     },
                 )
         }

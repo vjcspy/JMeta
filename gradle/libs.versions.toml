@@ -38,8 +38,6 @@ jsonpath = "2.7.0"
 # ======= Logging Infrastructure =======
 # Janino - Java compiler for dynamic code generation (used by Logback)
 janino = "3.1.12"
-# Kotlin Logging - Idiomatic Kotlin logging facade
-kotlin-logging = "7.0.0"
 # Logback - Reliable logging framework implementation
 logback = "1.5.12"
 # Logstash Encoder - JSON formatting for logs
@@ -130,8 +128,6 @@ mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", v
 # ======= Logging Stack =======
 # Dynamic code compilation for logging
 janino = { group = "org.codehaus.janino", name = "janino", version.ref = "janino" }
-# Kotlin logging API
-kotlin-logging-jvm = { module = "io.github.oshai:kotlin-logging-jvm", version.ref = "kotlin-logging" }
 # Logging implementation
 logback-classic = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
 # JSON log formatting
@@ -157,7 +153,6 @@ logging = [
     "logback-classic", # Logging implementation
     "logstash-logback", # JSON log formatting
     "janino", # Dynamic compilation support
-    "kotlin-logging-jvm"  # Kotlin logging facade
 ]
 
 # Comprehensive Ktor HTTP client setup

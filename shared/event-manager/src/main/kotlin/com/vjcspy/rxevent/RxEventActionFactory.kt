@@ -1,6 +1,6 @@
 package com.vjcspy.rxevent
 
-typealias EventActionFactory = (Any?) -> RxEventAction
+typealias EventActionFactory = (Map<String, Any>?) -> RxEventAction
 
 fun rxEventActionFactory(type: String): EventActionFactory =
     { payload ->

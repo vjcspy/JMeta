@@ -1,9 +1,9 @@
 // (mr.vjcspy@gmail.com) 2024
 package com.vjcspy.spring.packages.stocksync.service
 
+import com.vjcspy.kotlinutilities.log.getLogger
 import com.vjcspy.spring.packages.stocksync.dto.vietstock.CorporateData
 import com.vjcspy.spring.packages.stocksync.dto.vietstock.VietStockCredential
-import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service
 class CorService(
     private val vietStockCredentialService: VietStockCredentialService,
 ) {
-    private val logger = KotlinLogging.logger {}
+    private val logger = getLogger(this::class)
 
     fun getCorporateData(page: Int): Single<List<CorporateData>> {
         return rxSingle {
@@ -39,7 +39,7 @@ class CorService(
                     throw Exception("Failed to fetch data, status: ${response.status}")
                 }
             } catch (ex: Exception) {
-                logger.error(ex) { "Error getting Corporate data" }
+                logger.error("Error getting Corporate data", ex)
                 throw ex
             }
         }
