@@ -1,3 +1,4 @@
+// (mr.vjcspy@gmail.com) 2024
 package com.vjcspy.spring.packages.stocksync.dto.vietstock
 
 import java.time.Instant

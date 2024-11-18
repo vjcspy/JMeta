@@ -4,7 +4,6 @@ package com.vjcspy.spring.packages.stocksync.service
 import com.vjcspy.spring.packages.stocksync.dto.vietstock.CorporateData
 import com.vjcspy.spring.packages.stocksync.dto.vietstock.VietStockCredential
 import io.github.oshai.kotlinlogging.KotlinLogging
-import io.ktor.client.call.body
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
