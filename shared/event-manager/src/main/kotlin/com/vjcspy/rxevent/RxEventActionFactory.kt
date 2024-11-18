@@ -1,11 +1,12 @@
 package com.vjcspy.rxevent
 
-fun rxEventActionFactory(type: String): (Any?) -> RxEventAction {
-    return { payload ->
+typealias EventActionFactory = (Any?) -> RxEventAction
+
+fun rxEventActionFactory(type: String): EventActionFactory =
+    { payload ->
         RxEventAction(type, payload)
     }
-}
 
 // Extension property để lấy type
-val ((Any?) -> RxEventAction).type: String
+val EventActionFactory.type: String
     get() = this(null).type

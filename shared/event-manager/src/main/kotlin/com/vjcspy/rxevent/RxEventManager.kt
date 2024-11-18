@@ -11,9 +11,8 @@ import java.util.UUID
 private val logger = KotlinLogging.logger {}
 
 class RxEventManager private constructor() {
-
     companion object {
-        val actionSubject: PublishSubject<RxEventAction> = PublishSubject.create();
+        val actionSubject: PublishSubject<RxEventAction> = PublishSubject.create()
 
         fun dispatch(action: RxEventAction) {
             logger.info { "Dispatching action ${action.type}" }
@@ -25,17 +24,18 @@ class RxEventManager private constructor() {
 
         fun registerEvent(
             eventTypes: Array<String>,
-            eventHandler: ObservableTransformer<RxEventAction, RxEventAction>
+            eventHandler: ObservableTransformer<RxEventAction, RxEventAction>,
         ) {
-            actionSubject.subscribeOn(Schedulers.io())
+            actionSubject
+                .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
-                .filter { eventAction -> eventTypes.contains(eventAction.type) }
+                .filter { eventAction -> if (eventTypes.isEmpty()) true else eventTypes.contains(eventAction.type) }
                 .flatMap { originalEvent ->
-                    Observable.just(originalEvent)
+                    Observable
+                        .just(originalEvent)
                         .compose(eventHandler)
                         .map { handledEvent -> listOf(originalEvent, handledEvent) }
-                }
-                .subscribeBy(
+                }.subscribeBy(
                     onNext = { events ->
                         val originEvent = events[0]
                         val handledEvent = events[1]
@@ -43,7 +43,13 @@ class RxEventManager private constructor() {
                         require(originEvent is RxEventAction) { "originEvent is not an instance of RxEventAction" }
                         require(handledEvent is RxEventAction) { "handledEvent is not an instance of RxEventAction" }
 
-                        check(!(originEvent.correlationId != null && handledEvent.correlationId != null && originEvent.correlationId != handledEvent.correlationId)) {
+                        check(
+                            !(
+                                originEvent.correlationId != null &&
+                                    handledEvent.correlationId != null &&
+                                    originEvent.correlationId != handledEvent.correlationId
+                            ),
+                        ) {
                             "Origin Event và Handled Event không cùng correlationId"
                         }
 
@@ -58,7 +64,7 @@ class RxEventManager private constructor() {
                     },
                     onComplete = {
                         logger.error { "Why Completed???" }
-                    }
+                    },
                 )
         }
     }
