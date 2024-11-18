@@ -7,7 +7,7 @@ class TestBedAction private constructor() {
         const val BAR_TYPE = "testbed.bar"
         const val FOO_TYPE = "testbed.foo"
 
-        val BAR_ACTION = rxEventActionFactory(BAR_TYPE)
-        val FOO_ACTION = rxEventActionFactory(FOO_TYPE)
+        val BAR_ACTION = rxEventActionFactory<Any?>(BAR_TYPE)
+        val FOO_ACTION = rxEventActionFactory<Any?>(FOO_TYPE)
     }
 }

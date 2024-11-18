@@ -2,7 +2,6 @@ package com.vjcspy.rxevent
 
 import com.vjcspy.kotlinutilities.log.KtLogging
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
@@ -10,10 +9,10 @@ import java.util.UUID
 
 class RxEventManager private constructor() {
     companion object {
-        val actionSubject: PublishSubject<RxEventAction> = PublishSubject.create()
+        val actionSubject: PublishSubject<RxEventAction<Any>> = PublishSubject.create()
         private val logger = KtLogging.logger()
 
-        fun dispatch(action: RxEventAction) {
+        fun dispatch(action: RxEventAction<Any>) {
             logger.info("Dispatching action ${action.type}")
             if (action.correlationId == null) {
                 action.correlationId = UUID.randomUUID()
@@ -23,7 +22,7 @@ class RxEventManager private constructor() {
 
         fun registerEvent(
             eventTypes: Array<String>,
-            eventHandler: ObservableTransformer<RxEventAction, RxEventAction>,
+            eventHandler: RxEventHandler,
         ) {
             actionSubject
                 .subscribeOn(Schedulers.io())

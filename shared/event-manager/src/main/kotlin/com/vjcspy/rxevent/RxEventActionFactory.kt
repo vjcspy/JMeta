@@ -1,12 +1,13 @@
 package com.vjcspy.rxevent
 
-typealias EventActionFactory = (Map<String, Any>?) -> RxEventAction
+interface EventActionFactory<out T> : (@UnsafeVariance T?) -> RxEventAction<@UnsafeVariance T?> {
+    val type: String
+}
 
-fun rxEventActionFactory(type: String): EventActionFactory =
-    { payload ->
-        RxEventAction(type, payload)
+// Hàm factory tạo EventActionFactory
+fun <T> rxEventActionFactory(type: String): EventActionFactory<T?> =
+    object : EventActionFactory<T?> {
+        override val type: String = type
+
+        override fun invoke(payload: T?): RxEventAction<T?> = RxEventAction(type, payload)
     }
-
-// Extension property để lấy type
-val EventActionFactory.type: String
-    get() = this(null).type

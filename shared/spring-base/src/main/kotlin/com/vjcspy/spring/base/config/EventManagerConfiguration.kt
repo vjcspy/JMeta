@@ -1,7 +1,6 @@
 package com.vjcspy.spring.base.config
 
 import com.vjcspy.kotlinutilities.log.getLogger
-import com.vjcspy.rxevent.RxEventAction
 import com.vjcspy.rxevent.RxEventManager
 import com.vjcspy.spring.base.annotation.rxevent.Effect
 import io.reactivex.rxjava3.core.ObservableTransformer
@@ -72,7 +71,7 @@ open class EventManagerConfiguration {
                     if (returnType.contains("RxEventAction")) {
                         // Safe cast sau khi đã check
                         @Suppress("UNCHECKED_CAST")
-                        val eventHandler = handler as ObservableTransformer<RxEventAction, RxEventAction>
+                        val eventHandler = handler
 
                         val eventTypes = annotation.types
                         RxEventManager.registerEvent(eventTypes, eventHandler)
