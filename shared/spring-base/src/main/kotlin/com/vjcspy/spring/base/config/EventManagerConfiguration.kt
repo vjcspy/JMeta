@@ -1,6 +1,7 @@
 package com.vjcspy.spring.base.config
 
 import com.vjcspy.kotlinutilities.log.getLogger
+import com.vjcspy.rxevent.RxEventHandler
 import com.vjcspy.rxevent.RxEventManager
 import com.vjcspy.spring.base.annotation.rxevent.Effect
 import io.reactivex.rxjava3.core.ObservableTransformer
@@ -74,7 +75,9 @@ open class EventManagerConfiguration {
                         val eventHandler = handler
 
                         val eventTypes = annotation.types
-                        RxEventManager.registerEvent(eventTypes, eventHandler)
+
+                        @Suppress("UNCHECKED_CAST")
+                        RxEventManager.registerEvent(eventTypes, eventHandler as RxEventHandler)
 
                         logger.info(
                             "Registered event handler for types: ${eventTypes.joinToString()} " +

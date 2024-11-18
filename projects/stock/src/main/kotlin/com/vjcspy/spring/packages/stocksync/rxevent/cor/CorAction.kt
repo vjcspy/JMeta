@@ -14,7 +14,7 @@ data class CorLoadNextPageErrorPayload(
 
 object CorAction {
     val COR_LOAD_NEXT_PAGE_ACTION =
-        rxEventActionFactory<CorLoadNextPagePayload>("COR_LOAD_NEXT_PAGE")
+        rxEventActionFactory<CorLoadNextPagePayload>("COR_LOAD_NEXT_PAGE_ACTION")
     val COR_LOAD_NEXT_PAGE_SUCCESS_ACTION =
         rxEventActionFactory<Any?>("COR_LOAD_NEXT_PAGE_SUCCESS_ACTION")
     val COR_LOAD_NEXT_PAGE_ERROR_ACTION =

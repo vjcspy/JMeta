@@ -9,10 +9,10 @@ import java.util.UUID
 
 class RxEventManager private constructor() {
     companion object {
-        val actionSubject: PublishSubject<RxEventAction<Any>> = PublishSubject.create()
+        val actionSubject: PublishSubject<RxEventAction<Any?>> = PublishSubject.create()
         private val logger = KtLogging.logger()
 
-        fun dispatch(action: RxEventAction<Any>) {
+        fun dispatch(action: RxEventAction<Any?>) {
             logger.info("Dispatching action ${action.type}")
             if (action.correlationId == null) {
                 action.correlationId = UUID.randomUUID()
@@ -55,7 +55,8 @@ class RxEventManager private constructor() {
                             handledEvent.correlationId = originEvent.correlationId
                         }
 
-                        dispatch(handledEvent)
+                        @Suppress("UNCHECKED_CAST")
+                        dispatch(handledEvent as RxEventAction<Any>)
                     },
                     onError = { error ->
                         logger.error("Error in event stream: ${error.message}")

@@ -7,6 +7,7 @@ import com.vjcspy.spring.base.dto.response.toResponseEntity
 import com.vjcspy.spring.packages.stocksync.dto.vietstock.CorporateData
 import com.vjcspy.spring.packages.stocksync.dto.vietstock.VietStockCredential
 import com.vjcspy.spring.packages.stocksync.rxevent.cor.CorAction
+import com.vjcspy.spring.packages.stocksync.rxevent.cor.CorLoadNextPagePayload
 import com.vjcspy.spring.packages.stocksync.service.CorService
 import com.vjcspy.spring.packages.stocksync.service.VietStockCredentialService
 import org.springframework.http.ResponseEntity
@@ -39,7 +40,7 @@ class StockSyncController(
     fun testSyncCor(): ResponseEntity<OkResponse<Nothing?>> {
         RxEventManager.dispatch(
             CorAction.COR_LOAD_NEXT_PAGE_ACTION(
-                mapOf("currentPage" to 1),
+                CorLoadNextPagePayload(0),
             ),
         )
         return OkResponse.of(null).toResponseEntity()

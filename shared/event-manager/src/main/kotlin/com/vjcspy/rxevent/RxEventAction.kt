@@ -2,7 +2,7 @@ package com.vjcspy.rxevent
 
 import java.util.*
 
-data class RxEventAction<T>(
+data class RxEventAction<out T>(
     val type: String,
     val payload: T? = null,
 ) {

@@ -38,7 +38,7 @@ class Application {
     }
 
     private fun testRxEvent() {
-        RxEventManager.dispatch(TestBedAction.FOO_ACTION.invoke(null))
+        RxEventManager.dispatch(TestBedAction.FOO_ACTION(null))
     }
 }
 
