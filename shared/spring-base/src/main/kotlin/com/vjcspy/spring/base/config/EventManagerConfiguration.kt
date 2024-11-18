@@ -1,6 +1,6 @@
 package com.vjcspy.spring.base.config
 
-import com.vjcspy.kotlinutilities.log.getLogger
+import com.vjcspy.kotlinutilities.log.KtLogging
 import com.vjcspy.rxevent.RxEventHandler
 import com.vjcspy.rxevent.RxEventManager
 import com.vjcspy.spring.base.annotation.rxevent.Effect
@@ -16,13 +16,11 @@ import org.springframework.util.ReflectionUtils
 
 @Configuration
 open class EventManagerConfiguration {
-    private val logger = getLogger(this::class)
-
     @Bean
     open fun eventHandlerInitializer(): EventHandlerInitializer = EventHandlerInitializer()
 
     class EventHandlerInitializer : ApplicationListener<ContextRefreshedEvent> {
-        private val logger = getLogger(this::class)
+        private val logger = KtLogging.logger { }
 
         companion object {
             private var initialized = false
