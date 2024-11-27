@@ -40,7 +40,7 @@ class StockSyncController(
     fun testSyncCor(): ResponseEntity<OkResponse<Nothing?>> {
         RxEventManager.dispatch(
             CorAction.COR_LOAD_NEXT_PAGE_ACTION(
-                CorLoadNextPagePayload(0),
+                CorLoadNextPagePayload(currentPage = 0),
             ),
         )
         return OkResponse.of(null).toResponseEntity()

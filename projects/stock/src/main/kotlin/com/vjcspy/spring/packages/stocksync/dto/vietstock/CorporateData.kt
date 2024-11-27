@@ -4,6 +4,7 @@ package com.vjcspy.spring.packages.stocksync.dto.vietstock
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -26,28 +27,21 @@ data class CorporateData(
     val URL: String,
     val Row: Int,
     @Serializable(with = DateDeserializer::class)
-    val FirstTradeDate: LocalDate,
+    val FirstTradeDate: LocalDate?,
     val TotalRecord: Int,
 )
 
-object DateDeserializer : KSerializer<LocalDate> {
+object DateDeserializer : KSerializer<LocalDate?> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Date", PrimitiveKind.STRING)
 
-    override fun deserialize(decoder: Decoder): LocalDate {
-        val rawDate = decoder.decodeString() // Lấy chuỗi gốc: "/Date(1540227600000)/"
-        val epochMillis = rawDate.substringAfter("(").substringBefore(")").toLong() // Lấy giá trị "1540227600000"
-
-        // Áp dụng múi giờ UTC (UTC+0)
-        return Instant
-            .ofEpochMilli(epochMillis)
-            .atZone(ZoneId.of("UTC"))
-            .toLocalDate()
-    }
-
+    @OptIn(ExperimentalSerializationApi::class)
     override fun serialize(
         encoder: Encoder,
-        value: LocalDate,
+        value: LocalDate?,
     ) {
+        if (value == null) {
+            return encoder.encodeNull() // Nếu giá trị là null, encode null
+        }
         // Chuyển LocalDate về thời điểm 00:00 theo UTC
         val epochMillis =
             value
@@ -55,6 +49,22 @@ object DateDeserializer : KSerializer<LocalDate> {
                 .toInstant()
                 .toEpochMilli()
 
-        encoder.encodeString("/Date($epochMillis)/") // Format lại thành chuỗi JSON
+        encoder.encodeString("$epochMillis") // Format lại thành chuỗi JSON
+    }
+
+    override fun deserialize(decoder: Decoder): LocalDate? {
+        val rawDate = decoder.decodeString() // Lấy chuỗi gốc: "/Date(1540227600000)/
+
+        if (rawDate.isEmpty()) {
+            return null
+        }
+
+        val epochMillis = rawDate.substringAfter("(").substringBefore(")").toLong() // Lấy giá trị "1540227600000"
+
+        // Áp dụng múi giờ UTC (UTC+0)
+        return Instant
+            .ofEpochMilli(epochMillis)
+            .atZone(ZoneId.of("UTC"))
+            .toLocalDate()
     }
 }

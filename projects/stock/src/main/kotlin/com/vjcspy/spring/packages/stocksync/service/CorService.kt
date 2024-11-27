@@ -53,7 +53,7 @@ class CorService(
             append("catID=0")
             append("&industryID=0")
             append("&page=$page")
-            append("&pageSize=10")
+            append("&pageSize=200")
             append("&type=1")
             append("&code=")
             append("&businessTypeID=0")
