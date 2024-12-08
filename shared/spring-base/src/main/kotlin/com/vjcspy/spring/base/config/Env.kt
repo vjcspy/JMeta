@@ -16,12 +16,13 @@ class Env(
                 .filename(fileName)
                 .ignoreIfMalformed()
                 .ignoreIfMissing()
+                .systemProperties()
                 .load()
 
             // Merge variables from this dotenv file
             dotenv.entries().forEach { entry: DotenvEntry ->
                 // Only add the key if it does not already exist in the map
-                variables.putIfAbsent(entry.key, entry.value)
+                variables.put(entry.key, entry.value)
             }
         }
     }
