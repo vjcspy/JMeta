@@ -23,6 +23,10 @@ spring:
         port: ${RABBITMQ_PORT}
         username: ${RABBITMQ_USER}
         password: ${RABBITMQ_PASSWORD}
+        listener:
+            simple:
+                concurrency: 3
+                max-concurrency: 10
     devtools:
         restart:
             enabled: true
