@@ -1,3 +1,4 @@
+// (mr.vjcspy@gmail.com) 2024
 package com.vjcspy.spring.packages.stocksync.mapper
 
 import com.vjcspy.spring.packages.stockinfo.entity.CorEntity

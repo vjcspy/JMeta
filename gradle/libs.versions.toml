@@ -143,6 +143,9 @@ springdoc-openapi-starter = { group = "org.springdoc", name = "springdoc-openapi
 # Environment configuration
 dotenv = { group = "io.github.cdimascio", name = "java-dotenv", version.ref = "dotenv" }
 
+# ======= Spring AMQP (RabbitMQ) =======
+spring-boot-starter-amqp = { module = "org.springframework.boot:spring-boot-starter-amqp", version.ref = "springBoot" }
+
 [bundles]
 # Core Kotlin dependencies
 kotlin-core = ["kotlin-reflect", "kotlin-ksp-symbol-processing-api"]
@@ -165,3 +168,6 @@ ktor-http-client = [
     "kotlinx-serialization-json", # JSON serialization
     "coroutines-rx3"                     # RxJava integration
 ]
+
+# Spring AMQP (RabbitMQ)
+spring-amqp = ["spring-boot-starter-amqp"]

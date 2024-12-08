@@ -18,6 +18,9 @@ dependencies {
     // OpenAPI Documentation
     implementation libs.springdoc.openapi.starter
 
+    // AMQP
+    implementation libs.bundles.spring.amqp
+
     // Development
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
