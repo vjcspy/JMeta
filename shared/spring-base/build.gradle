@@ -1,6 +1,10 @@
 plugins {
     id 'buildlogic.kotlin-spring-conventions'
 
+    // Kotlin KSP (annotation processor)
+    alias(libs.plugins.kotlin.ksp)
+
+    // Require for Spring boot
     alias(libs.plugins.spring.boot) apply false
     alias(libs.plugins.spring.dependency)
 }
