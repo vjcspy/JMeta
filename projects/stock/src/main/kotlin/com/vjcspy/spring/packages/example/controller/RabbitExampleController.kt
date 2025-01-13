@@ -1,3 +1,4 @@
+// (mr.vjcspy@gmail.com) 2025
 package com.vjcspy.spring.packages.example.controller
 
 import com.vjcspy.spring.packages.example.queue.RabbitExamplePublisher

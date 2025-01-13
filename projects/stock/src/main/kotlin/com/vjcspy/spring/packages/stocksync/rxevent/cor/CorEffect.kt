@@ -45,7 +45,7 @@ class CorEffect(
                     }
                 }.map { data ->
                     val payload = data[0] as CorLoadNextPagePayload
-                    val corData = data[1] as? List<CorporateData>
+                    val corData = data[1] as? List<*>
 
                     if (corData == null) {
                         return@map CorAction.COR_LOAD_NEXT_PAGE_ERROR_ACTION(
@@ -68,7 +68,7 @@ class CorEffect(
                     CorAction.COR_LOAD_NEXT_PAGE_SUCCESS_ACTION(
                         CorLoadNexPageSuccessPayload(
                             page = payload.currentPage + 1,
-                            data = corData,
+                            data = corData as List<CorporateData>,
                         ),
                     )
                 }

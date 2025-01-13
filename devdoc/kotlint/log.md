@@ -1,4 +1,10 @@
+# Kotlin Logging
+Đang sử dụng SL4J và logback theo default của spring boot
+
+
+## Usage
 ```kotlin
+private val logger = KtLogging.logger {}
 logger.info(
     "Processing payment",
     kv(

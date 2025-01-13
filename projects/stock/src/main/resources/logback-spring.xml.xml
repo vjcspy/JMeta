@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <!-- Properties for configuration -->
+    <!-- Spring properties -->
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+    <springProperty scope="context" name="springProfile" source="spring.profiles.active"/>
+
+    <!-- Common properties -->
     <property name="LOG_PATH" value="${LOG_PATH:-${LOG_DIR:-${logging.path:-logs}}}"/>
     <timestamp key="timestamp" datePattern="yyyy-MM-dd"/>
     <property name="LOG_ARCHIVE" value="${LOG_PATH}/archive"/>
@@ -8,18 +12,14 @@
     <!-- Console Appender with JSON format -->
     <appender name="ConsoleJson" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <!-- Custom fields that will be added to every log message -->
-            <customFields>{"environment":"${SPRING_PROFILES_ACTIVE:-development}"}</customFields>
-            <!-- Include caller data (class name, method name, and line number) -->
+            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}</customFields>
             <includeCallerData>true</includeCallerData>
-            <!-- Include full stack traces -->
             <stackTraceEnabled>true</stackTraceEnabled>
-            <!-- Pretty print the JSON output -->
             <prettyPrint>true</prettyPrint>
         </encoder>
     </appender>
 
-    <!-- Regular Console Appender (keeping the original for readable logs) -->
+    <!-- Regular Console Appender -->
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
@@ -32,10 +32,9 @@
     <appender name="JsonFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/application-json.log</file>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"environment":"${SPRING_PROFILES_ACTIVE:-development}"}</customFields>
+            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}</customFields>
             <includeCallerData>true</includeCallerData>
             <stackTraceEnabled>true</stackTraceEnabled>
-            <!-- Compact JSON for file storage -->
             <prettyPrint>false</prettyPrint>
         </encoder>
 
@@ -47,7 +46,7 @@
         </rollingPolicy>
     </appender>
 
-    <!-- Original File Appender (keeping for backward compatibility) -->
+    <!-- Original File Appender -->
     <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/application.log</file>
         <encoder>
@@ -75,28 +74,49 @@
         <discardingThreshold>0</discardingThreshold>
     </appender>
 
-    <!-- Logger configurations -->
-    <!-- Application logs -->
-    <logger name="com.vjcspy" level="DEBUG" additivity="false">
-        <appender-ref ref="Console"/>
-        <!--        <appender-ref ref="ConsoleJson"/>-->
-        <appender-ref ref="AsyncJson"/>
-        <!--        <appender-ref ref="AsyncFile"/>-->
-    </logger>
+    <!-- Environment specific configurations -->
+    <springProfile name="development">
+        <!-- Application logs - Development -->
+        <logger name="com.vjcspy" level="DEBUG" additivity="false">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="ConsoleJson"/>
+            <appender-ref ref="AsyncJson"/>
+        </logger>
 
-    <!-- Framework logs -->
-    <logger name="org.springframework" level="INFO" additivity="false">
-        <appender-ref ref="Console"/>
-        <appender-ref ref="AsyncJson"/>
-        <!--        <appender-ref ref="AsyncFile"/>-->
-    </logger>
+        <!-- Framework logs - Development -->
+        <logger name="org.springframework" level="DEBUG" additivity="false">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="AsyncJson"/>
+        </logger>
 
-    <!-- Root logger -->
-    <root level="INFO">
-        <appender-ref ref="Console"/>
-        <appender-ref ref="AsyncJson"/>
-        <!--        <appender-ref ref="AsyncFile"/>-->
-    </root>
+        <!-- Root logger - Development -->
+        <root level="INFO">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="AsyncJson"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="production">
+        <!-- Application logs - Production -->
+        <logger name="com.vjcspy" level="INFO" additivity="false">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="AsyncJson"/>
+            <appender-ref ref="AsyncFile"/>
+        </logger>
+
+        <!-- Framework logs - Production -->
+        <logger name="org.springframework" level="INFO" additivity="false">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="AsyncJson"/>
+        </logger>
+
+        <!-- Root logger - Production -->
+        <root level="WARN">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="AsyncJson"/>
+            <appender-ref ref="AsyncFile"/>
+        </root>
+    </springProfile>
 
     <!-- Status listener -->
     <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>

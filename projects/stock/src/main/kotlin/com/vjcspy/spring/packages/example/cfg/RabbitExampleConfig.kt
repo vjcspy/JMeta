@@ -1,3 +1,4 @@
+// (mr.vjcspy@gmail.com) 2025
 package com.vjcspy.spring.packages.example.cfg
 
 import org.springframework.amqp.core.Binding

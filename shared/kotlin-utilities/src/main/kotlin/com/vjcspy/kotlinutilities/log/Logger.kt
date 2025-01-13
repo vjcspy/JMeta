@@ -22,5 +22,8 @@ object KtLogging {
         return LoggerFactory.getLogger(caller)
     }
 
+    /**
+    * kotlin Trailing Lambda style
+    * */
     fun logger(x: () -> Unit): Logger = this.logger()
 }
