@@ -4,6 +4,9 @@
 
 plugins {
     id 'buildlogic.kotlin-library-conventions'
+
+    // Kotlin KSP (annotation processor)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 dependencies {
