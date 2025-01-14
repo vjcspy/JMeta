@@ -45,19 +45,21 @@ class CorEffect(
                     }
                 }.map { data ->
                     val payload = data[0] as CorLoadNextPagePayload
-                    val corData = data[1] as? List<*>
+                    val corData =
+                        data[1] as? List<*>
+                            ?: return@map CorAction.COR_LOAD_NEXT_PAGE_ERROR_ACTION(
+                                CorLoadNextPageErrorPayload(
+                                    errorMessage = "Wrong data from downstream",
+                                    error = Exception("Wrong data from downstream"),
+                                ),
+                            )
 
-                    if (corData == null) {
-                        return@map CorAction.COR_LOAD_NEXT_PAGE_ERROR_ACTION(
-                            CorLoadNextPageErrorPayload(
-                                errorMessage = "Wrong data from downstream",
-                                error = Exception("Wrong data from downstream"),
-                            ),
-                        )
-                    }
+                    logger.info("Successfully retrieved corporate data.")
 
-                    logger.info("successfully get corporate data")
-                    if (corData.isEmpty()) {
+                    // Kiểm tra và chuyển đổi danh sách thành List<CorporateData> an toàn
+                    val corporateDataList = corData.filterIsInstance<CorporateData>()
+
+                    if (corporateDataList.isEmpty()) {
                         if (payload.currentPage > 0) {
                             logger.info("Loaded full data")
                         }
@@ -68,7 +70,7 @@ class CorEffect(
                     CorAction.COR_LOAD_NEXT_PAGE_SUCCESS_ACTION(
                         CorLoadNexPageSuccessPayload(
                             page = payload.currentPage + 1,
-                            data = corData as List<CorporateData>,
+                            data = corporateDataList,
                         ),
                     )
                 }

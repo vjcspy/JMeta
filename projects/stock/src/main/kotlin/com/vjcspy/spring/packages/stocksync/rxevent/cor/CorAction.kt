@@ -25,5 +25,5 @@ object CorAction {
         rxEventActionFactory<CorLoadNexPageSuccessPayload>("COR_LOAD_NEXT_PAGE_SUCCESS_ACTION")
     val COR_LOAD_NEXT_PAGE_ERROR_ACTION =
         rxEventActionFactory<CorLoadNextPageErrorPayload>("COR_LOAD_NEXT_PAGE_ERROR_ACTION")
-    val COR_LOAD_COMPLETE_ACTION = rxEventActionFactory<Any?>("COR_LOAD_COMPLETE_ACTION")
+    val COR_LOAD_COMPLETE_ACTION = rxEventActionFactory<Nothing?>("COR_LOAD_COMPLETE_ACTION")
 }
