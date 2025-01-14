@@ -28,6 +28,8 @@ retrofit = "2.11.0"
 rxjava = "3.1.9"
 # RxKotlin - Kotlin extensions for RxJava
 rxkotlin = "3.0.1"
+# JSoup - HTML parsing and manipulation library
+jsoup = "1.17.2"
 
 # ======= JSON Processing =======
 # Jackson - Flexible JSON processing library
@@ -103,13 +105,15 @@ coroutines-rx3 = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-r
 # JSON serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 
-# ======= HTTP & Reactive Libraries =======
+# ======= HTTP & Network Libraries =======
 # OkHttp logging capabilities
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 # RxJava core
 rxjava = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
 # Kotlin-specific RxJava extensions
 rxkotlin = { group = "io.reactivex.rxjava3", name = "rxkotlin", version.ref = "rxkotlin" }
+# HTML parsing and manipulation library
+jsoup = { group = "org.jsoup", name = "jsoup", version.ref = "jsoup" }
 
 # ======= JSON Processing =======
 # Jackson core annotations
