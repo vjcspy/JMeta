@@ -3,32 +3,17 @@ spring:
         active: dev
     application:
         name: stock-api
-    datasource:
-        url: jdbc:postgresql://localhost:5432/meta_stock
-        username: root
-        password: root
-        driver-class-name: org.postgresql.Driver
     jpa:
         hibernate:
             ddl-auto: none
             naming:
                 physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-        show-sql: true
         properties:
             hibernate:
                 naming:
                     physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     rabbitmq:
-        host: ${RABBITMQ_HOST}
-        port: ${RABBITMQ_PORT}
-        username: ${RABBITMQ_USER}
-        password: ${RABBITMQ_PASSWORD}
         listener:
             simple:
                 concurrency: 3
                 max-concurrency: 10
-    devtools:
-        restart:
-            enabled: true
-        livereload:
-            enabled: true

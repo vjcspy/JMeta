@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class DotEnvConfig {
+class DotEnvConfig_ {
     @Bean
     fun env(): Env {
         val currentDir = System.getProperty("user.dir")
