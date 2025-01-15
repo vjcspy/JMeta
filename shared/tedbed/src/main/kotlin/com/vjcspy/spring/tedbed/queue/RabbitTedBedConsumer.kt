@@ -1,7 +1,5 @@
-// (mr.vjcspy@gmail.com) 2025
-package com.vjcspy.spring.packages.example.queue
+package com.vjcspy.spring.tedbed.queue
 
-import com.vjcspy.spring.packages.example.cfg.RabbitExampleConfig
 import kotlin.random.Random
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -9,9 +7,9 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Component
 
 @Component
-class RabbitExampleConsumer {
+class RabbitTedBedConsumer {
     // Consumer lắng nghe thông điệp từ queue "myQueue"
-    @RabbitListener(queues = [RabbitExampleConfig.EXAMPLE_QUEUE], containerFactory = "listenerContainerFactory")
+    @RabbitListener(queues = [RabbitTedBedConfig.EXAMPLE_QUEUE], containerFactory = "tedBedListenerContainerFactory")
     fun consumeMessage(message: String) {
         runBlocking {
             println("Received message: $message")
