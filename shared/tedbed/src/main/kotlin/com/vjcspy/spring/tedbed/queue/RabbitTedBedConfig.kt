@@ -1,6 +1,5 @@
 package com.vjcspy.spring.tedbed.queue
 
-import com.rabbitmq.client.ConnectionFactory
 import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.BindingBuilder
 import org.springframework.amqp.core.Queue
@@ -9,8 +8,10 @@ import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFacto
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 
 @Configuration
+@Profile("dev")
 open class RabbitTedBedConfig {
     companion object {
         const val EXAMPLE_ROUTING_KEY = "tedbed.routing.key"
