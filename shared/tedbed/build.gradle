@@ -6,6 +6,8 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.bundles.reactive)
+
     implementation project(':shared:event-manager')
     implementation project(':shared:spring-base')
     implementation project(':shared:kotlin-utilities')

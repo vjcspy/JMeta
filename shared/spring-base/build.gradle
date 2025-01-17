@@ -10,6 +10,8 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.bundles.reactive)
+
     implementation project(':shared:kotlin-utilities')
     implementation project(':shared:event-manager')
 }

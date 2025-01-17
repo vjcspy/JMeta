@@ -11,6 +11,10 @@ kotlinx-serialization-json = "1.7.3"
 # Ktor - Modern asynchronous HTTP client framework by JetBrains
 ktor = "3.0.1"
 
+# ======= Reactive Stack =======
+# Kotlin extensions for Project Reactor
+reactor-kotlin = "1.2.2"
+
 # ======= Spring Framework Stack =======
 # Spring Boot - Core framework for building production-ready applications
 springBoot = "3.3.4"
@@ -87,6 +91,14 @@ kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", v
 # KSP API for annotation processing
 kotlin-ksp-symbol-processing-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 
+# ======= Reactive Stack =======
+# Spring WebFlux starter including Project Reactor
+spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "springBoot" }
+# Integration between Kotlin Coroutines and Project Reactor
+kotlinx-coroutines-reactor = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-reactor", version.ref = "kotlinx-coroutines-rx3" }
+# Kotlin-specific extensions for Project Reactor
+reactor-kotlin-extensions = { group = "io.projectreactor.kotlin", name = "reactor-kotlin-extensions", version.ref = "reactor-kotlin" }
+
 # ======= Ktor HTTP Client Stack =======
 # Coroutine-based I/O implementation
 ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
@@ -150,6 +162,9 @@ dotenv = { group = "io.github.cdimascio", name = "java-dotenv", version.ref = "d
 # ======= Spring AMQP (RabbitMQ) =======
 spring-boot-starter-amqp = { module = "org.springframework.boot:spring-boot-starter-amqp", version.ref = "springBoot" }
 
+# ======= Spring AOP =======
+spring-boot-starter-aop = { module = "org.springframework.boot:spring-boot-starter-aop", version.ref = "springBoot" }
+
 [bundles]
 # Core Kotlin dependencies
 kotlin-core = ["kotlin-reflect", "kotlin-ksp-symbol-processing-api"]
@@ -173,5 +188,12 @@ ktor-http-client = [
     "coroutines-rx3"                     # RxJava integration
 ]
 
-# Spring AMQP (RabbitMQ)
-spring-amqp = ["spring-boot-starter-amqp"]
+# Spring dependencies
+spring-dependencies = ["spring-boot-starter-amqp","spring-boot-starter-aop"]
+
+# Reactive programming support bundle
+reactive = [
+    "spring-boot-starter-webflux",      # WebFlux core functionality
+    "kotlinx-coroutines-reactor",       # Coroutines-Reactor bridge
+    "reactor-kotlin-extensions",        # Kotlin extensions for Reactor
+]
