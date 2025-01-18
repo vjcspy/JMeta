@@ -28,6 +28,50 @@
         </encoder>
     </appender>
 
+    <!-- Warning Level JSON File Appender -->
+    <appender name="WarnJsonFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <prudent>true</prudent>
+        <file>${LOG_PATH}/warn.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}</customFields>
+            <includeCallerData>true</includeCallerData>
+            <stackTraceEnabled>true</stackTraceEnabled>
+            <prettyPrint>false</prettyPrint>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_ARCHIVE}/warn.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Error Level JSON File Appender -->
+    <appender name="ErrorJsonFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <prudent>true</prudent>
+        <file>${LOG_PATH}/error.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}</customFields>
+            <includeCallerData>true</includeCallerData>
+            <stackTraceEnabled>true</stackTraceEnabled>
+            <prettyPrint>false</prettyPrint>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_ARCHIVE}/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
     <!-- JSON File Appender -->
     <appender name="JsonFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <prudent>true</prudent>
@@ -38,40 +82,28 @@
             <stackTraceEnabled>true</stackTraceEnabled>
             <prettyPrint>false</prettyPrint>
         </encoder>
-
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_ARCHIVE}/application-json.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxFileSize>5MB</maxFileSize>
-            <maxHistory>30</maxHistory>
-            <totalSizeCap>1GB</totalSizeCap>
-        </rollingPolicy>
-    </appender>
-
-    <!-- Original File Appender -->
-    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <prudent>true</prudent>
-        <file>${LOG_PATH}/application.log</file>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_ARCHIVE}/application.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxFileSize>5MB</maxFileSize>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_ARCHIVE}/application-json.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
             <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>
     </appender>
 
     <!-- Async Appenders -->
-    <appender name="AsyncJson" class="ch.qos.logback.classic.AsyncAppender">
-        <appender-ref ref="JsonFile"/>
+    <appender name="AsyncWarnJson" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="WarnJsonFile"/>
         <queueSize>512</queueSize>
         <discardingThreshold>0</discardingThreshold>
     </appender>
 
-    <appender name="AsyncFile" class="ch.qos.logback.classic.AsyncAppender">
-        <appender-ref ref="RollingFile"/>
+    <appender name="AsyncErrorJson" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="ErrorJsonFile"/>
+        <queueSize>512</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+    </appender>
+
+    <appender name="AsyncJson" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="JsonFile"/>
         <queueSize>512</queueSize>
         <discardingThreshold>0</discardingThreshold>
     </appender>
@@ -83,7 +115,8 @@
             <appender-ref ref="Console"/>
             <appender-ref ref="ConsoleJson"/>
             <appender-ref ref="AsyncJson"/>
-<!--            <appender-ref ref="AsyncFile"/>-->
+            <appender-ref ref="AsyncWarnJson"/>
+            <appender-ref ref="AsyncErrorJson"/>
         </logger>
 
         <!-- Framework logs - Development -->
@@ -91,7 +124,8 @@
             <appender-ref ref="Console"/>
             <appender-ref ref="ConsoleJson"/>
             <appender-ref ref="AsyncJson"/>
-<!--            <appender-ref ref="AsyncFile"/>-->
+            <appender-ref ref="AsyncWarnJson"/>
+            <appender-ref ref="AsyncErrorJson"/>
         </logger>
 
         <!-- Root logger - Development -->
@@ -99,7 +133,8 @@
             <appender-ref ref="Console"/>
             <appender-ref ref="ConsoleJson"/>
             <appender-ref ref="AsyncJson"/>
-<!--            <appender-ref ref="AsyncFile"/>-->
+            <appender-ref ref="AsyncWarnJson"/>
+            <appender-ref ref="AsyncErrorJson"/>
         </root>
     </springProfile>
 
@@ -108,21 +143,24 @@
         <logger name="com.vjcspy" level="INFO" additivity="false">
             <appender-ref ref="Console"/>
             <appender-ref ref="AsyncJson"/>
-<!--            <appender-ref ref="AsyncFile"/>-->
+            <appender-ref ref="AsyncWarnJson"/>
+            <appender-ref ref="AsyncErrorJson"/>
         </logger>
 
         <!-- Framework logs - Production -->
         <logger name="org.springframework" level="INFO" additivity="false">
             <appender-ref ref="Console"/>
             <appender-ref ref="AsyncJson"/>
-<!--            <appender-ref ref="AsyncFile"/>-->
+            <appender-ref ref="AsyncWarnJson"/>
+            <appender-ref ref="AsyncErrorJson"/>
         </logger>
 
         <!-- Root logger - Production -->
         <root level="WARN">
             <appender-ref ref="Console"/>
             <appender-ref ref="AsyncJson"/>
-<!--            <appender-ref ref="AsyncFile"/>-->
+            <appender-ref ref="AsyncWarnJson"/>
+            <appender-ref ref="AsyncErrorJson"/>
         </root>
     </springProfile>
 
