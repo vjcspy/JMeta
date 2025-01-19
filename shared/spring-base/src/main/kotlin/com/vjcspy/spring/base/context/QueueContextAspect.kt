@@ -42,9 +42,6 @@ class QueueContextAspect {
                             }
                         }
                     }
-                }.doFinally {
-                    // Dọn dẹp MDC sau khi hoàn thành
-                    MDC.clear()
                 }
         } catch (e: Exception) {
             logger.error("Error in RabbitListener aspect", e)
