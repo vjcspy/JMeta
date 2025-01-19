@@ -93,6 +93,68 @@
         </rollingPolicy>
     </appender>
 
+    <!-- Splunk HEC Appender -->
+    <appender name="SplunkHEC" class="com.splunk.logging.HttpEventCollectorLogbackAppender">
+        <url>${splunk.hec.url}</url>
+        <token>${splunk.hec.token}</token>
+        <source>${spring.application.name}</source>
+        <sourcetype>_json</sourcetype>
+        <index>${spring.application.name}</index>
+        <disableCertificateValidation>true</disableCertificateValidation>
+
+        <!-- Batching configuration -->
+        <batch_size_count>100</batch_size_count>
+        <batch_size_bytes>524288</batch_size_bytes>  <!-- 512KB -->
+        <batch_interval>5000</batch_interval>        <!-- 5 seconds -->
+
+        <!-- Retry configuration -->
+        <retryCount>5</retryCount>                  <!-- Number of retries -->
+        <backoffThreshold>10</backoffThreshold>     <!-- Number of consecutive failures before backing off -->
+        <maxBackoff>300000</maxBackoff>             <!-- Max backoff time in milliseconds (5 minutes) -->
+
+        <!-- Connection configuration -->
+        <connectTimeout>5000</connectTimeout>        <!-- 5 seconds connection timeout -->
+        <readTimeout>10000</readTimeout>            <!-- 10 seconds read timeout -->
+        <disableCertificateValidation>true</disableCertificateValidation>
+
+        <!-- Enable middleware for handling failed events -->
+        <middleware class="com.splunk.logging.HttpEventCollectorMiddleware$EventHeaderSerializer">
+            <enabled>true</enabled>
+        </middleware>
+
+        <layout class="net.logstash.logback.layout.LogstashLayout">
+            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}</customFields>
+            <includeCallerData>true</includeCallerData>
+            <stackTraceEnabled>true</stackTraceEnabled>
+            <includeMdcKeyName>correlationId</includeMdcKeyName>
+        </layout>
+    </appender>
+
+    <!-- File backup appender for failed Splunk events -->
+    <appender name="FailedSplunkEvents" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/failed-splunk-events.log</file>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}</customFields>
+            <includeCallerData>true</includeCallerData>
+            <stackTraceEnabled>true</stackTraceEnabled>
+            <includeMdcKeyName>correlationId</includeMdcKeyName>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_ARCHIVE}/failed-splunk-events.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Async wrapper for failed events appender -->
+    <appender name="AsyncFailedSplunkEvents" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FailedSplunkEvents"/>
+        <queueSize>512</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>true</includeCallerData>
+        <neverBlock>true</neverBlock>
+    </appender>
+
     <!-- Async Appenders -->
     <appender name="AsyncWarnJson" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="WarnJsonFile"/>
@@ -112,6 +174,12 @@
         <discardingThreshold>0</discardingThreshold>
     </appender>
 
+    <appender name="AsyncSplunkHEC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="SplunkHEC"/>
+        <queueSize>512</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+    </appender>
+
     <!-- Environment specific configurations -->
     <springProfile name="dev">
         <!-- Application logs - Development -->
@@ -121,6 +189,7 @@
             <appender-ref ref="AsyncJson"/>
             <appender-ref ref="AsyncWarnJson"/>
             <appender-ref ref="AsyncErrorJson"/>
+            <appender-ref ref="AsyncSplunkHEC"/>
         </logger>
 
         <!-- Framework logs - Development -->
@@ -130,6 +199,7 @@
             <appender-ref ref="AsyncJson"/>
             <appender-ref ref="AsyncWarnJson"/>
             <appender-ref ref="AsyncErrorJson"/>
+            <appender-ref ref="AsyncSplunkHEC"/>
         </logger>
 
         <!-- Root logger - Development -->
@@ -139,6 +209,7 @@
             <appender-ref ref="AsyncJson"/>
             <appender-ref ref="AsyncWarnJson"/>
             <appender-ref ref="AsyncErrorJson"/>
+            <appender-ref ref="AsyncSplunkHEC"/>
         </root>
     </springProfile>
 
@@ -149,6 +220,7 @@
             <appender-ref ref="AsyncJson"/>
             <appender-ref ref="AsyncWarnJson"/>
             <appender-ref ref="AsyncErrorJson"/>
+            <appender-ref ref="AsyncSplunkHEC"/>
         </logger>
 
         <!-- Framework logs - Production -->
@@ -157,6 +229,7 @@
             <appender-ref ref="AsyncJson"/>
             <appender-ref ref="AsyncWarnJson"/>
             <appender-ref ref="AsyncErrorJson"/>
+            <appender-ref ref="AsyncSplunkHEC"/>
         </logger>
 
         <!-- Root logger - Production -->
@@ -165,6 +238,7 @@
             <appender-ref ref="AsyncJson"/>
             <appender-ref ref="AsyncWarnJson"/>
             <appender-ref ref="AsyncErrorJson"/>
+            <appender-ref ref="AsyncSplunkHEC"/>
         </root>
     </springProfile>
 

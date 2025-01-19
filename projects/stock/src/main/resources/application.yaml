@@ -4,7 +4,7 @@ spring:
     profiles:
         active: dev
     application:
-        name: stock-api
+        name: jmeta_stock
     jpa:
         hibernate:
             ddl-auto: none
@@ -19,3 +19,10 @@ spring:
             simple:
                 acknowledge-mode: manual
                 prefetch: 1
+splunk:
+    hec:
+        url: http://54.251.229.80:30080
+        token: cca20de9-28a3-46e8-9d95-94054f79f772
+    source: jmeta_stock
+    sourcetype: _json
+    index: jmeta_stock

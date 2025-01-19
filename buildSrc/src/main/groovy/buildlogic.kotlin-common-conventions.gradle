@@ -12,9 +12,6 @@ plugins {
 dependencies {
     implementation libs.bundles.kotlin.core
 
-    // Logging
-    implementation libs.bundles.logging
-
     // jackson
     implementation libs.jackson.module.kotlin
 }

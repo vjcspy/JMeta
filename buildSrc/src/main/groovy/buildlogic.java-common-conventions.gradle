@@ -10,6 +10,10 @@ plugins {
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+    maven {
+        url = uri("https://splunk.jfrog.io/splunk/ext-releases-local")
+        name = "Splunk Releases"
+    }
 }
 
 dependencies {
@@ -27,8 +31,11 @@ dependencies {
     implementation libs.jackson.annotations
     implementation libs.jsonpath
 
+    // Logging
+    implementation libs.bundles.logging
+
     // Use JUnit Jupiter for testing.
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.3'
+    testImplementation(libs.bundles.testing)
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }

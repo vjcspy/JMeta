@@ -11,6 +11,10 @@ kotlinx-serialization-json = "1.7.3"
 # Ktor - Modern asynchronous HTTP client framework by JetBrains
 ktor = "3.0.1"
 
+# ======= Testing Frameworks =======
+# JUnit Jupiter - Modern testing framework for Java and Kotlin
+junit = "5.10.3"
+
 # ======= Reactive Stack =======
 # Kotlin extensions for Project Reactor
 reactor-kotlin = "1.2.2"
@@ -50,6 +54,8 @@ logback = "1.5.12"
 logstash_logback_version = "8.0"
 # SLF4J - Simple Logging Facade for Java
 slf4j = "2.0.16"
+# Splunk Logging Library - Integration with Splunk logging infrastructure
+splunk_logging = "1.11.8"
 
 # ======= Development Tools =======
 # MapStruct - Type-safe bean mapping generation
@@ -90,6 +96,14 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref =
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 # KSP API for annotation processing
 kotlin-ksp-symbol-processing-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
+
+# ======= Testing Libraries =======
+# JUnit Jupiter API
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+# JUnit Jupiter Engine
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+# JUnit Jupiter Params for parameterized tests
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
 
 # ======= Reactive Stack =======
 # Spring WebFlux starter including Project Reactor
@@ -150,6 +164,8 @@ logback-classic = { group = "ch.qos.logback", name = "logback-classic", version.
 logstash-logback = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash_logback_version" }
 # Logging facade
 slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
+# Splunk logging integration
+splunk-logging = { group = "com.splunk.logging", name = "splunk-library-javalogging", version.ref = "splunk_logging" }
 
 # ======= Documentation =======
 # OpenAPI/Swagger UI
@@ -169,12 +185,19 @@ spring-boot-starter-aop = { module = "org.springframework.boot:spring-boot-start
 # Core Kotlin dependencies
 kotlin-core = ["kotlin-reflect", "kotlin-ksp-symbol-processing-api"]
 
+# Testing dependencies
+testing = [
+    "junit-jupiter",          # JUnit Jupiter API and Engine
+    "junit-jupiter-params",   # Support for parameterized tests
+]
+
 # Complete logging setup
 logging = [
     "slf4j-api", # Logging facade
     "logback-classic", # Logging implementation
     "logstash-logback", # JSON log formatting
     "janino", # Dynamic compilation support
+    "splunk-logging", # Splunk logging integration
 ]
 
 # Comprehensive Ktor HTTP client setup
