@@ -3,6 +3,8 @@
     <!-- Spring properties -->
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
     <springProperty scope="context" name="springProfile" source="spring.profiles.active"/>
+    <springProperty scope="context" name="splunkHecUrl" source="splunk.hec.url"/>
+    <springProperty scope="context" name="splunkHecToken" source="splunk.hec.token"/>
 
     <!-- Common properties -->
     <property name="LOG_PATH" value="./logs"/>
@@ -95,11 +97,11 @@
 
     <!-- Splunk HEC Appender -->
     <appender name="SplunkHEC" class="com.splunk.logging.HttpEventCollectorLogbackAppender">
-        <url>${splunk.hec.url}</url>
-        <token>${splunk.hec.token}</token>
-        <source>${spring.application.name}</source>
+        <url>${splunkHecUrl}</url>
+        <token>${splunkHecToken}</token>
+        <source>${springAppName}</source>
         <sourcetype>_json</sourcetype>
-        <index>${spring.application.name}</index>
+        <index>${springAppName}</index>
         <disableCertificateValidation>true</disableCertificateValidation>
 
         <!-- Batching configuration -->
