@@ -19,7 +19,6 @@ class QueueContextAspect {
     @Around("@annotation(org.springframework.amqp.rabbit.annotation.RabbitListener)")
     fun aroundRabbitListener(joinPoint: ProceedingJoinPoint): Any {
         try {
-            // Extract context from message or create new
             val contextData = extractContextData(joinPoint.args)
 
             val result = joinPoint.proceed()
@@ -34,7 +33,17 @@ class QueueContextAspect {
                         newCtx = newCtx.put(key, value)
                     }
                     newCtx
+                }.doOnEach { signal ->
+                    // Lưu context vào MDC cho mỗi signal (onNext, onError, onComplete)
+                    if (signal.isOnNext || signal.isOnError || signal.isOnComplete) {
+                        signal.contextView.forEach { key, value ->
+                            if (key is String && value is String) {
+                                MDC.put(key.toString(), value.toString())
+                            }
+                        }
+                    }
                 }.doFinally {
+                    // Dọn dẹp MDC sau khi hoàn thành
                     MDC.clear()
                 }
         } catch (e: Exception) {
@@ -65,7 +74,7 @@ class QueueContextAspect {
 
         // If no correlation ID found in headers, generate new one
         contextData[CORRELATION_ID_KEY] = correlationId
-            ?: UUID.randomUUID().toString()
+            ?: "queue-${UUID.randomUUID()}"
 
         // Add more context data extraction here if needed
         // contextData["other-key"] = extractOtherData(args)

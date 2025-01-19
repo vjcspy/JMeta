@@ -16,6 +16,7 @@
             <includeCallerData>true</includeCallerData>
             <stackTraceEnabled>true</stackTraceEnabled>
             <prettyPrint>true</prettyPrint>
+            <includeMdcKeyName>correlationId</includeMdcKeyName>
         </encoder>
     </appender>
 
@@ -42,6 +43,7 @@
             <includeCallerData>true</includeCallerData>
             <stackTraceEnabled>true</stackTraceEnabled>
             <prettyPrint>false</prettyPrint>
+            <includeMdcKeyName>correlationId</includeMdcKeyName>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_ARCHIVE}/warn.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -64,6 +66,7 @@
             <includeCallerData>true</includeCallerData>
             <stackTraceEnabled>true</stackTraceEnabled>
             <prettyPrint>false</prettyPrint>
+            <includeMdcKeyName>correlationId</includeMdcKeyName>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_ARCHIVE}/error.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -81,6 +84,7 @@
             <includeCallerData>true</includeCallerData>
             <stackTraceEnabled>true</stackTraceEnabled>
             <prettyPrint>false</prettyPrint>
+            <includeMdcKeyName>correlationId</includeMdcKeyName>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_ARCHIVE}/application-json.%d{yyyy-MM-dd}.log</fileNamePattern>

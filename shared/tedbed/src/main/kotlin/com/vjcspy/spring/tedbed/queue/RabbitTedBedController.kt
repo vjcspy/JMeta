@@ -14,7 +14,7 @@ class RabbitTedBedController(
 
     @RequestMapping("/test")
     fun test(): Mono<Map<String, String>> {
-        repeat(20) {
+        repeat(3) {
             rabbitTedBedPublisher.sendMessage("$it")
         }
         return Mono.just(mapOf("status" to "ok"))

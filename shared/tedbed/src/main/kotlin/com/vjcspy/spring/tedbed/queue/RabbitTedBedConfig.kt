@@ -58,7 +58,7 @@ class RabbitTedBedConfig {
     ): SimpleRabbitListenerContainerFactory {
         val factory = SimpleRabbitListenerContainerFactory()
         factory.setConnectionFactory(connectionFactory)
-        factory.setConcurrentConsumers(5)
+        factory.setConcurrentConsumers(1)
         factory.setPrefetchCount(1)
 
         // https://docs.spring.io/spring-amqp/docs/3.0.0/reference/html/#async-returns

@@ -65,7 +65,11 @@ class RabbitTedBedConsumer {
     }
 
     private fun processMessage(message: String): Mono<Void> =
-        fromRunnable<Void> {
-            logger.info(("Processing message: $message"))
-        }.subscribeOn(Schedulers.boundedElastic())
+        // Must use deferContextual to get the context from the subscriber
+        Mono.deferContextual { ctx ->
+            val correlationId = ctx.get<String>(CORRELATION_ID_KEY)
+            fromRunnable<Void> {
+                logger.info("Processing message: $message with correlationId: $correlationId")
+            }.subscribeOn(Schedulers.boundedElastic())
+        }
 }
