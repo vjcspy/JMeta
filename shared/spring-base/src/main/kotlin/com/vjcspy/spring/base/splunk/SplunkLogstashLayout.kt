@@ -17,6 +17,10 @@ class SplunkLogstashLayout : LogstashLayout() {
             event: ILoggingEvent,
         ) {
             try {
+                val argumentArray = event.argumentArray
+                if (argumentArray != null && argumentArray.isNotEmpty()) {
+                    // Trong này cần check argumentArray có phải là object cần log không
+                }
                 // Thêm custom timestamp
 //                generator.writeStringField(
 //                    "custom_timestamp",

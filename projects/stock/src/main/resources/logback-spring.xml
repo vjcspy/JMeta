@@ -123,20 +123,20 @@
         <readTimeout>10000</readTimeout>            <!-- 10 seconds read timeout -->
         <disableCertificateValidation>true</disableCertificateValidation>
 
-        <!-- Enable middleware for handling failed events -->
-        <middleware class="com.splunk.logging.HttpEventCollectorMiddleware$EventHeaderSerializer">
-            <enabled>true</enabled>
-        </middleware>
-
+<!--        <middleware>com.vjcspy.spring.base.splunk.HttpEventCollectorSenderMiddleware</middleware>-->
         <layout class="com.vjcspy.spring.base.splunk.SplunkLogstashLayout">
             <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}
             </customFields>
             <excludeFields>splunkHecToken,splunkHecUrl</excludeFields>
-            <includeCallerData>true</includeCallerData>
+            <includeCallerData>false</includeCallerData>
             <includeContext>false</includeContext>
             <stackTraceEnabled>true</stackTraceEnabled>
             <includeMdcKeyName>correlationId</includeMdcKeyName>
         </layout>
+
+<!--        <layout class="ch.qos.logback.classic.PatternLayout">-->
+<!--            <pattern>%d [%thread] %-5level %logger{36} - %marker %msg%n</pattern>-->
+<!--        </layout>-->
     </appender>
 
     <!-- File backup appender for failed Splunk events -->

@@ -5,6 +5,7 @@ import com.vjcspy.kotlinutilities.log.KtLogging
 import com.vjcspy.rxevent.RxEventManager
 import com.vjcspy.spring.tedbed.rxeventmanager.TestBedAction
 import net.logstash.logback.argument.StructuredArguments.value
+import org.slf4j.MarkerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -24,7 +25,11 @@ class Application {
 
     @EventListener(ApplicationReadyEvent::class)
     fun runAfterStartup() {
-        logger.info("Application `{}` started ", value("appName", appName))
+        logger.info(
+            MarkerFactory.getMarker("URGENT"),
+            "Application `{}` started successfully",
+            value("appName", appName),
+        )
 
         testRxEvent()
     }
