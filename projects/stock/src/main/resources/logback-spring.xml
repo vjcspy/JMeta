@@ -14,7 +14,8 @@
     <!-- Console Appender with JSON format -->
     <appender name="ConsoleJson" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}</customFields>
+            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}
+            </customFields>
             <includeCallerData>true</includeCallerData>
             <stackTraceEnabled>true</stackTraceEnabled>
             <prettyPrint>true</prettyPrint>
@@ -41,7 +42,8 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}</customFields>
+            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}
+            </customFields>
             <includeCallerData>true</includeCallerData>
             <stackTraceEnabled>true</stackTraceEnabled>
             <prettyPrint>false</prettyPrint>
@@ -64,7 +66,8 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}</customFields>
+            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}
+            </customFields>
             <includeCallerData>true</includeCallerData>
             <stackTraceEnabled>true</stackTraceEnabled>
             <prettyPrint>false</prettyPrint>
@@ -82,7 +85,8 @@
         <prudent>true</prudent>
         <file>${LOG_PATH}/application-json.log</file>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}</customFields>
+            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}
+            </customFields>
             <includeCallerData>true</includeCallerData>
             <stackTraceEnabled>true</stackTraceEnabled>
             <prettyPrint>false</prettyPrint>
@@ -124,9 +128,12 @@
             <enabled>true</enabled>
         </middleware>
 
-        <layout class="net.logstash.logback.layout.LogstashLayout">
-            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}</customFields>
+        <layout class="com.vjcspy.spring.base.splunk.SplunkLogstashLayout">
+            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}
+            </customFields>
+            <excludeFields>splunkHecToken,splunkHecUrl</excludeFields>
             <includeCallerData>true</includeCallerData>
+            <includeContext>false</includeContext>
             <stackTraceEnabled>true</stackTraceEnabled>
             <includeMdcKeyName>correlationId</includeMdcKeyName>
         </layout>
@@ -136,7 +143,8 @@
     <appender name="FailedSplunkEvents" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/failed-splunk-events.log</file>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}</customFields>
+            <customFields>{"app_name":"${springAppName:-unknown}","environment":"${springProfile:-development}"}
+            </customFields>
             <includeCallerData>true</includeCallerData>
             <stackTraceEnabled>true</stackTraceEnabled>
             <includeMdcKeyName>correlationId</includeMdcKeyName>
