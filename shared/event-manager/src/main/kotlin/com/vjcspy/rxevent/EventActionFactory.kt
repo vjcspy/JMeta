@@ -5,7 +5,7 @@ interface EventActionFactory<out T> : (@UnsafeVariance T?) -> EventAction<@Unsaf
 }
 
 // Hàm factory tạo EventActionFactory
-fun <T> rxEventActionFactory(type: String): EventActionFactory<T?> =
+fun <T> eventActionFactory(type: String): EventActionFactory<T?> =
     object : EventActionFactory<T?> {
         override val type: String = type
 
