@@ -2,6 +2,7 @@ package com.vjcspy.spring.base.splunk
 
 import ch.qos.logback.classic.spi.ILoggingEvent
 import com.fasterxml.jackson.core.JsonGenerator
+import net.logstash.logback.argument.StructuredArgument
 import net.logstash.logback.composite.AbstractJsonProvider
 import net.logstash.logback.layout.LogstashLayout
 
@@ -19,7 +20,12 @@ class SplunkLogstashLayout : LogstashLayout() {
             try {
                 val argumentArray = event.argumentArray
                 if (argumentArray != null && argumentArray.isNotEmpty()) {
-                    // Trong này cần check argumentArray có phải là object cần log không
+                    for (i in argumentArray.indices) {
+                        if (argumentArray[i] is StructuredArgument) {
+                            val arg = argumentArray[i] as StructuredArgument
+                            arg.writeTo(generator)
+                        }
+                    }
                 }
                 // Thêm custom timestamp
 //                generator.writeStringField(

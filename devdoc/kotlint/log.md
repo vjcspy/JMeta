@@ -3,6 +3,7 @@
 
 
 ## Usage
+Khi log như thế này sẽ có đủ các tham số kể cả ở trong jsonFile và splunk
 ```kotlin
 private val logger = KtLogging.logger {}
 logger.info(

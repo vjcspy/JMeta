@@ -4,6 +4,7 @@ package com.vjcspy.spring.application
 import com.vjcspy.kotlinutilities.log.KtLogging
 import com.vjcspy.rxevent.RxEventManager
 import com.vjcspy.spring.tedbed.rxeventmanager.TestBedAction
+import net.logstash.logback.argument.StructuredArguments.kv
 import net.logstash.logback.argument.StructuredArguments.value
 import org.slf4j.MarkerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -30,7 +31,6 @@ class Application {
             "Application `{}` started successfully",
             value("appName", appName),
         )
-
         testRxEvent()
     }
 
