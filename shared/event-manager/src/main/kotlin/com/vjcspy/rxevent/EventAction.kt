@@ -30,3 +30,5 @@ inline fun <reified T> EventAction<*>.assertPayload(): T {
 
     return this.payload
 }
+
+val EMPTY_ACTION = eventActionFactory<Nothing>("EMPTY_ACTION")

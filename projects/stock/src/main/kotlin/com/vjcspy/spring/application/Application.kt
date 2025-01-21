@@ -1,6 +1,7 @@
 // (mr.vjcspy@gmail.com) 2024
 package com.vjcspy.spring.application
 
+import com.vjcspy.fluxevent.FluxEventManager
 import com.vjcspy.kotlinutilities.log.KtLogging
 import com.vjcspy.rxevent.RxEventManager
 import com.vjcspy.spring.tedbed.rxeventmanager.TestBedAction
@@ -31,11 +32,12 @@ class Application {
             "Application `{}` started successfully",
             value("appName", appName),
         )
-        testRxEvent()
+        testEvent()
     }
 
-    private fun testRxEvent() {
-        RxEventManager.dispatch(TestBedAction.FOO_ACTION(null))
+    private fun testEvent() {
+//        RxEventManager.dispatch(TestBedAction.FOO_ACTION(null))
+        FluxEventManager.dispatch(TestBedAction.FOO_ACTION(null))
     }
 }
 

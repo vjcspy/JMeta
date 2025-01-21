@@ -10,6 +10,8 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.bundles.reactive)
+
     implementation libs.rxjava
     implementation libs.rxkotlin
 

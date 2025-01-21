@@ -1,5 +1,7 @@
 package com.vjcspy.spring.base.config
 
+import com.vjcspy.fluxevent.FluxEventHandler
+import com.vjcspy.fluxevent.FluxEventManager
 import com.vjcspy.kotlinutilities.log.KtLogging
 import com.vjcspy.rxevent.RxEventHandler
 import com.vjcspy.rxevent.RxEventManager
@@ -67,9 +69,8 @@ open class EventManagerConfiguration {
                 if (handler is ObservableTransformer<*, *>) {
                     // Check thêm generic type thông qua method return type
                     val returnType = method.genericReturnType.toString()
-                    if (returnType.contains("RxEventAction")) {
+                    if (returnType.contains("EventAction")) {
                         // Safe cast sau khi đã check
-                        @Suppress("UNCHECKED_CAST")
                         val eventHandler = handler
 
                         val eventTypes = annotation.types
@@ -78,7 +79,7 @@ open class EventManagerConfiguration {
                         RxEventManager.registerEvent(eventTypes, eventHandler as RxEventHandler)
 
                         logger.info(
-                            "Registered event handler for types: ${eventTypes.joinToString()} " +
+                            "Registered RX event handler for types: ${eventTypes.joinToString()} " +
                                 "from bean: ${bean.javaClass.simpleName}",
                         )
                     } else {
@@ -87,10 +88,32 @@ open class EventManagerConfiguration {
                                 "returns ObservableTransformer but with wrong generic types",
                         )
                     }
+                } else if (handler is Function1<*, *>) {
+                    // Đây là sử dụng Flux
+                    val returnType = method.genericReturnType.toString()
+                    if (returnType.contains("EventAction")) {
+                        // Safe cast sau khi đã check
+                        val eventHandler = handler
+
+                        val eventTypes = annotation.types
+
+                        @Suppress("UNCHECKED_CAST")
+                        FluxEventManager.registerEvent(eventTypes, eventHandler as FluxEventHandler)
+
+                        logger.info(
+                            "Registered Flux event handler for types: ${eventTypes.joinToString()} " +
+                                "from bean: ${bean.javaClass.simpleName}",
+                        )
+                    } else {
+                        logger.warn(
+                            "Method ${method.name} in ${bean.javaClass.simpleName} " +
+                                "returns Flux but with wrong generic types",
+                        )
+                    }
                 } else {
                     logger.warn(
                         "Method ${method.name} in ${bean.javaClass.simpleName} " +
-                            "does not return ObservableTransformer (actual type: ${handler?.javaClass})",
+                            "does not return ObservableTransformer or Flux (actual type: ${handler?.javaClass})",
                     )
                 }
             } catch (e: Exception) {
