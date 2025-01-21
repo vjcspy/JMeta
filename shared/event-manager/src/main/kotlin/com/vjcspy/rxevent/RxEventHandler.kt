@@ -2,4 +2,4 @@ package com.vjcspy.rxevent
 
 import io.reactivex.rxjava3.core.ObservableTransformer
 
-typealias RxEventHandler = ObservableTransformer<RxEventAction<Any?>, RxEventAction<Any?>>
+typealias RxEventHandler = ObservableTransformer<EventAction<Any?>, EventAction<Any?>>

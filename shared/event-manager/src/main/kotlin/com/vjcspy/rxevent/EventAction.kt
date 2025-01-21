@@ -2,7 +2,7 @@ package com.vjcspy.rxevent
 
 import java.util.*
 
-data class RxEventAction<out T>(
+data class EventAction<out T>(
     val type: String,
     val payload: T? = null,
 ) {
@@ -19,7 +19,7 @@ data class RxEventAction<out T>(
         }
 }
 
-inline fun <reified T> RxEventAction<*>.assertPayload(): T {
+inline fun <reified T> EventAction<*>.assertPayload(): T {
     check(this.payload is T) {
         "Payload is not of type ${T::class.simpleName}, but is of type ${
             payload?.let {

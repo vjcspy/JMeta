@@ -2,7 +2,7 @@
 package com.vjcspy.spring.packages.stocksync.rxevent.cor
 
 import com.vjcspy.kotlinutilities.log.KtLogging
-import com.vjcspy.rxevent.RxEventAction
+import com.vjcspy.rxevent.EventAction
 import com.vjcspy.rxevent.RxEventHandler
 import com.vjcspy.rxevent.assertPayload
 import com.vjcspy.rxevent.ofAction
@@ -92,7 +92,7 @@ class CorEffect(
                     logger.info("Successfully save corporate data")
                     CorAction.COR_LOAD_NEXT_PAGE_ACTION(
                         CorLoadNextPagePayload(currentPage = payload.page),
-                    ) as RxEventAction<Any?>
+                    ) as EventAction<Any?>
                 }.onErrorReturn { error ->
                     logger.error("Error when handle save corporation data", error)
                     CorAction.COR_LOAD_NEXT_PAGE_ERROR_ACTION(
