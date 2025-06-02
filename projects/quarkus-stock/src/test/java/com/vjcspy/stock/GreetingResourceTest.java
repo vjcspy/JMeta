@@ -1,4 +1,4 @@
-package org.acme;
+package com.vjcspy.stock;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
