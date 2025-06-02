@@ -1,0 +1,25 @@
+/*
+ * Quarkus-specific build convention for Java 17 projects.
+ */
+
+plugins {
+    // Apply common Java conventions (shared between multiple conventions)
+    id 'buildlogic.java-common-conventions'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = true
+    }
+    systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+}
+
+group = 'com.vjcspy'
+version = '1.0.0-SNAPSHOT'

@@ -67,6 +67,10 @@ spotless = "7.0.0.BETA4"
 # Dotenv - Environment configuration from .env files
 dotenv = "5.2.2"
 
+# ======= Quarkus Stack =======
+quarkusPluginVersion = "3.23.0"
+quarkusPlatformVersion = "3.23.0"
+
 [plugins]
 # ======= Kotlin Plugins =======
 # JPA support for Kotlin
@@ -87,6 +91,9 @@ spring-dependency = { id = "io.spring.dependency-management", version.ref = "spr
 # ======= Code Quality Plugins =======
 # Code formatting and style enforcement
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+
+# ======= Quarkus Plugin =======
+quarkus = { id = "io.quarkus", version.ref = "quarkusPluginVersion" }
 
 [libraries]
 # ======= Kotlin Core Libraries =======
@@ -180,6 +187,9 @@ spring-boot-starter-amqp = { module = "org.springframework.boot:spring-boot-star
 
 # ======= Spring AOP =======
 spring-boot-starter-aop = { module = "org.springframework.boot:spring-boot-starter-aop", version.ref = "springBoot" }
+
+# ======= Quarkus Libraries =======
+quarkus-bom = { group = "io.quarkus.platform", name = "quarkus-bom", version.ref = "quarkusPlatformVersion" }
 
 [bundles]
 # Core Kotlin dependencies
