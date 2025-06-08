@@ -1,9 +1,9 @@
 package com.vjcspy.stockinfo.controller;
 
-import com.vjcspy.stockinfo.model.corentity.CorEntity;
-import com.vjcspy.stockinfo.model.corentity.CorEntityDTO;
-import com.vjcspy.stockinfo.model.corentity.CorEntityMapper;
-import com.vjcspy.stockinfo.model.corentity.CorEntityRepository;
+import com.vjcspy.stockinfo.model.cor.CorEntity;
+import com.vjcspy.stockinfo.model.cor.CorEntityDTO;
+import com.vjcspy.stockinfo.model.cor.CorEntityMapper;
+import com.vjcspy.stockinfo.model.cor.CorEntityRepository;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Path("/cor")
 @Consumes(MediaType.APPLICATION_JSON)
-public class CorEntityResource {
+public class CorResource {
 
     @Inject
     CorEntityRepository repository;

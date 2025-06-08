@@ -1,4 +1,4 @@
-package com.vjcspy.stockinfo.model.corentity;
+package com.vjcspy.stockinfo.model.cor;
 
 import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
 import jakarta.persistence.*;

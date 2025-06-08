@@ -1,4 +1,4 @@
-package com.vjcspy.stockinfo.model.corentity;
+package com.vjcspy.stockinfo.model.cor;
 
 public class CorEntityMapper {
 
