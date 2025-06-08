@@ -11,9 +11,24 @@ plugins {
 dependencies {
     implementation(enforcedPlatform(libs.quarkus.bom))
 
+    // DI
     implementation 'io.quarkus:quarkus-arc'
-    implementation 'io.quarkus:quarkus-rest'
 
+    // Rest
+    implementation("io.quarkus:quarkus-rest")
+    implementation("io.quarkus:quarkus-rest-jackson")
+
+    // Mutiny
+    implementation 'io.smallrye.reactive:mutiny'
+
+
+    // Hibernate Reactive với Panache
+    implementation("io.quarkus:quarkus-hibernate-reactive")
+    implementation("io.quarkus:quarkus-hibernate-reactive-panache")
+    implementation 'io.quarkus:quarkus-reactive-pg-client'
+
+
+    // Test
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
 }
