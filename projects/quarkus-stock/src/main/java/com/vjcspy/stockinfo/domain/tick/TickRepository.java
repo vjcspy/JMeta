@@ -1,4 +1,4 @@
-package com.vjcspy.stockinfo.model.tick;
+package com.vjcspy.stockinfo.domain.tick;
 
 import io.quarkus.hibernate.reactive.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;

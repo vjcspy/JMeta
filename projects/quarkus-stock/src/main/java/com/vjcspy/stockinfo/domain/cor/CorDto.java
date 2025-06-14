@@ -1,4 +1,4 @@
-package com.vjcspy.stockinfo.model.cor;
+package com.vjcspy.stockinfo.domain.cor;
 
 
 import java.time.LocalDate;

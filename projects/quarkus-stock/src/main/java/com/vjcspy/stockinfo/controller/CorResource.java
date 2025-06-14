@@ -1,9 +1,9 @@
 package com.vjcspy.stockinfo.controller;
 
-import com.vjcspy.stockinfo.model.cor.CorEntity;
-import com.vjcspy.stockinfo.model.cor.CorDto;
-import com.vjcspy.stockinfo.model.cor.CorMapper;
-import com.vjcspy.stockinfo.model.cor.CorRepository;
+import com.vjcspy.stockinfo.domain.cor.CorEntity;
+import com.vjcspy.stockinfo.domain.cor.CorDto;
+import com.vjcspy.stockinfo.domain.cor.CorMapper;
+import com.vjcspy.stockinfo.domain.cor.CorRepository;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;

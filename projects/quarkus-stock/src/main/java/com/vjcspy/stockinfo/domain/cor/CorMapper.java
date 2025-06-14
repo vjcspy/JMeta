@@ -1,4 +1,4 @@
-package com.vjcspy.stockinfo.model.cor;
+package com.vjcspy.stockinfo.domain.cor;
 
 public class CorMapper {
 

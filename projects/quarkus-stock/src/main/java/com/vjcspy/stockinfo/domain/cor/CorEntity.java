@@ -1,4 +1,4 @@
-package com.vjcspy.stockinfo.model.cor;
+package com.vjcspy.stockinfo.domain.cor;
 
 import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
 import jakarta.persistence.*;
@@ -19,25 +19,25 @@ public class CorEntity extends PanacheEntityBase {
     @Column(name = "\"catId\"")
     public Integer catId;
 
-    @Column(name = "\"code\"", length = 255, nullable = false, unique = true)
+    @Column(name = "\"code\"", nullable = false, unique = true)
     public String code;
 
-    @Column(name = "\"exchange\"", length = 255, nullable = false)
+    @Column(name = "\"exchange\"", nullable = false)
     public String exchange;
 
-    @Column(name = "\"industryName1\"", length = 255)
+    @Column(name = "\"industryName1\"")
     public String industryName1;
 
-    @Column(name = "\"industryName2\"", length = 255)
+    @Column(name = "\"industryName2\"")
     public String industryName2;
 
-    @Column(name = "\"industryName3\"", length = 255)
+    @Column(name = "\"industryName3\"")
     public String industryName3;
 
     @Column(name = "\"totalShares\"", nullable = false)
     public Long totalShares;
 
-    @Column(name = "\"name\"", length = 255, nullable = false)
+    @Column(name = "\"name\"", nullable = false)
     public String name;
 
     @Column(name = "\"firstTradeDate\"")

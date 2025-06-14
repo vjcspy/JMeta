@@ -1,4 +1,4 @@
-package com.vjcspy.stockinfo.model.tick;
+package com.vjcspy.stockinfo.domain.tick;
 
 
 import com.fasterxml.jackson.databind.JsonNode;

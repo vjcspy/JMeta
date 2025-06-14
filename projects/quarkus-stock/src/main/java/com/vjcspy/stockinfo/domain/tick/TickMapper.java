@@ -1,4 +1,4 @@
-package com.vjcspy.stockinfo.model.tick;
+package com.vjcspy.stockinfo.domain.tick;
 
 public class TickMapper {
 
@@ -8,7 +8,7 @@ public class TickMapper {
         }
 
         return new TickDto(
-            entity.id,  // No conversion needed now
+            entity.id,
             entity.symbol,
             entity.date,
             entity.meta
@@ -21,7 +21,7 @@ public class TickMapper {
         }
 
         TickEntity entity = new TickEntity();
-        entity.id = dto.getId();  // No conversion needed now
+        entity.id = dto.getId();
         entity.symbol = dto.getSymbol();
         entity.date = dto.getDate();
         entity.meta = dto.getMeta();

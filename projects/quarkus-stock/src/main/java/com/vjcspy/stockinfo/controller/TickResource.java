@@ -1,9 +1,9 @@
 package com.vjcspy.stockinfo.controller;
 
-import com.vjcspy.stockinfo.model.tick.TickEntity;
-import com.vjcspy.stockinfo.model.tick.TickDto;
-import com.vjcspy.stockinfo.model.tick.TickMapper;
-import com.vjcspy.stockinfo.model.tick.TickRepository;
+import com.vjcspy.stockinfo.domain.tick.TickEntity;
+import com.vjcspy.stockinfo.domain.tick.TickDto;
+import com.vjcspy.stockinfo.domain.tick.TickMapper;
+import com.vjcspy.stockinfo.domain.tick.TickRepository;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
