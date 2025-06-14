@@ -10,13 +10,13 @@ import java.util.Objects;
 /**
  * DTO for {@link TickEntity}
  */
-public class TickEntityDto implements Serializable {
+public class TickDto implements Serializable {
     private final Integer id;
     private final String symbol;
     private final LocalDate date;
     private final JsonNode meta;
 
-    public TickEntityDto(Integer id, String symbol, LocalDate date, JsonNode meta) {
+    public TickDto(Integer id, String symbol, LocalDate date, JsonNode meta) {
         this.id = id;
         this.symbol = symbol;
         this.date = date;
@@ -43,7 +43,7 @@ public class TickEntityDto implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TickEntityDto entity = (TickEntityDto) o;
+        TickDto entity = (TickDto) o;
         return Objects.equals(this.id, entity.id) &&
             Objects.equals(this.symbol, entity.symbol) &&
             Objects.equals(this.date, entity.date) &&

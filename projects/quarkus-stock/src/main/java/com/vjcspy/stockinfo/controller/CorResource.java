@@ -1,9 +1,9 @@
 package com.vjcspy.stockinfo.controller;
 
 import com.vjcspy.stockinfo.model.cor.CorEntity;
-import com.vjcspy.stockinfo.model.cor.CorEntityDTO;
-import com.vjcspy.stockinfo.model.cor.CorEntityMapper;
-import com.vjcspy.stockinfo.model.cor.CorEntityRepository;
+import com.vjcspy.stockinfo.model.cor.CorDto;
+import com.vjcspy.stockinfo.model.cor.CorMapper;
+import com.vjcspy.stockinfo.model.cor.CorRepository;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
 public class CorResource {
 
     @Inject
-    CorEntityRepository repository;
+    CorRepository repository;
 
     @GET
-    public Uni<List<CorEntityDTO>> getAll(
+    public Uni<List<CorDto>> getAll(
         @QueryParam("page") @DefaultValue("0") int page,
         @QueryParam("size") @DefaultValue("20") int size) {
         return repository.findAll()
@@ -29,30 +29,30 @@ public class CorResource {
             .list()
             .onItem().transform(list ->
                 list.stream()
-                    .map(CorEntityMapper::toDTO)
+                    .map(CorMapper::toDTO)
                     .collect(Collectors.toList())
             );
     }
 
     @GET
     @Path("/{id}")
-    public Uni<CorEntityDTO> getById(@PathParam("id") Long id) {
+    public Uni<CorDto> getById(@PathParam("id") Long id) {
         return repository.findById(id)
-            .onItem().ifNotNull().transform(CorEntityMapper::toDTO)
+            .onItem().ifNotNull().transform(CorMapper::toDTO)
             .onItem().ifNull().failWith(() -> new NotFoundException("CorEntity not found"));
     }
 
     @POST
-    public Uni<CorEntityDTO> create(CorEntityDTO dto) {
-        CorEntity entity = CorEntityMapper.toEntity(dto);
+    public Uni<CorDto> create(CorDto dto) {
+        CorEntity entity = CorMapper.toEntity(dto);
         return repository.persist(entity)
-            .replaceWith(CorEntityMapper.toDTO(entity));
+            .replaceWith(CorMapper.toDTO(entity));
     }
 
     @PUT
     @Path("/{id}")
     @Transactional
-    public Uni<CorEntityDTO> update(@PathParam("id") Long id, CorEntityDTO dto) {
+    public Uni<CorDto> update(@PathParam("id") Long id, CorDto dto) {
         if (dto == null) {
             return Uni.createFrom().failure(new BadRequestException("Invalid input"));
         }
@@ -79,7 +79,7 @@ public class CorResource {
                 return entity;
             })
             .call(entity -> repository.persist(entity))
-            .map(CorEntityMapper::toDTO);
+            .map(CorMapper::toDTO);
     }
 
     @DELETE

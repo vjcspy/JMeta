@@ -4,5 +4,5 @@ import io.quarkus.hibernate.reactive.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class TickEntityRepository implements PanacheRepository<TickEntity> {
+public class TickRepository implements PanacheRepository<TickEntity> {
 }

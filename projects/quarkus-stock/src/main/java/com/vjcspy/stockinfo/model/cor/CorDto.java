@@ -3,7 +3,7 @@ package com.vjcspy.stockinfo.model.cor;
 
 import java.time.LocalDate;
 
-public class CorEntityDTO {
+public class CorDto {
     public Long id;
     public String code;
     public String exchange;

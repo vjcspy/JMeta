@@ -1,9 +1,9 @@
 package com.vjcspy.stockinfo.model.cor;
 
-public class CorEntityMapper {
+public class CorMapper {
 
-    public static CorEntityDTO toDTO(CorEntity entity) {
-        CorEntityDTO dto = new CorEntityDTO();
+    public static CorDto toDTO(CorEntity entity) {
+        CorDto dto = new CorDto();
         dto.id = entity.id;
         dto.code = entity.code;
         dto.exchange = entity.exchange;
@@ -18,7 +18,7 @@ public class CorEntityMapper {
         return dto;
     }
 
-    public static CorEntity toEntity(CorEntityDTO dto) {
+    public static CorEntity toEntity(CorDto dto) {
         CorEntity entity = new CorEntity();
         entity.id = dto.id;
         entity.code = dto.code;

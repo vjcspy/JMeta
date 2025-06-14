@@ -1,13 +1,13 @@
 package com.vjcspy.stockinfo.model.tick;
 
-public class TickEntityMapper {
+public class TickMapper {
 
-    public static TickEntityDto toDto(TickEntity entity) {
+    public static TickDto toDto(TickEntity entity) {
         if (entity == null) {
             return null;
         }
 
-        return new TickEntityDto(
+        return new TickDto(
             entity.id,  // No conversion needed now
             entity.symbol,
             entity.date,
@@ -15,7 +15,7 @@ public class TickEntityMapper {
         );
     }
 
-    public static TickEntity toEntity(TickEntityDto dto) {
+    public static TickEntity toEntity(TickDto dto) {
         if (dto == null) {
             return null;
         }
