@@ -60,6 +60,8 @@ splunk_logging = "1.11.8"
 # ======= Development Tools =======
 # MapStruct - Type-safe bean mapping generation
 mapstruct = "1.5.5.Final"
+# Lombok - Boilerplate code reduction through annotations
+lombok = "1.18.38"
 # Spotless - Code formatting enforcement
 spotless = "7.0.0.BETA4"
 
@@ -161,6 +163,8 @@ jsonpath = { group = "com.jayway.jsonpath", name = "json-path", version.ref = "j
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
 # MapStruct compiler
 mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
+# Boilerplate code reduction through annotations
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
 
 # ======= Logging Stack =======
 # Dynamic code compilation for logging

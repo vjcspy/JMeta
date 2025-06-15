@@ -22,6 +22,9 @@ public class TickResource {
     @Inject
     TickRepository repository;
 
+    @Inject
+    TickMapper tickMapper;
+
     @GET
     public Uni<List<TickDto>> getAll(
         @QueryParam("page") @DefaultValue("0") int page,
@@ -31,7 +34,7 @@ public class TickResource {
             .list()
             .onItem().transform(list ->
                 list.stream()
-                    .map(TickMapper::toDto)
+                    .map(tickMapper::toDto)
                     .collect(Collectors.toList())
             );
     }
@@ -40,7 +43,7 @@ public class TickResource {
     @Path("/{id}")
     public Uni<TickDto> getById(@PathParam("id") Long id) {
         return repository.findById(id)
-            .onItem().ifNotNull().transform(TickMapper::toDto)
+            .onItem().ifNotNull().transform(tickMapper::toDto)
             .onItem().ifNull().failWith(() -> new NotFoundException("Tick not found"));
     }
 
@@ -55,7 +58,7 @@ public class TickResource {
             .list()
             .onItem().transform(list ->
                 list.stream()
-                    .map(TickMapper::toDto)
+                    .map(tickMapper::toDto)
                     .collect(Collectors.toList())
             );
     }
@@ -67,7 +70,7 @@ public class TickResource {
         @PathParam("date") LocalDate date) {
         return repository.find("symbol = ?1 and date = ?2", symbol, date)
             .firstResult()
-            .onItem().ifNotNull().transform(TickMapper::toDto)
+            .onItem().ifNotNull().transform(tickMapper::toDto)
             .onItem().ifNull().failWith(() -> new NotFoundException("Tick not found for symbol and date"));
     }
 
@@ -82,7 +85,7 @@ public class TickResource {
             .list()
             .onItem().transform(list ->
                 list.stream()
-                    .map(TickMapper::toDto)
+                    .map(tickMapper::toDto)
                     .collect(Collectors.toList())
             );
     }
@@ -92,7 +95,7 @@ public class TickResource {
     public Uni<TickDto> getLatestBySymbol(@PathParam("symbol") String symbol) {
         return repository.find("symbol = ?1 order by date desc", symbol)
             .firstResult()
-            .onItem().ifNotNull().transform(TickMapper::toDto)
+            .onItem().ifNotNull().transform(tickMapper::toDto)
             .onItem().ifNull().failWith(() -> new NotFoundException("No ticks found for symbol"));
     }
 
@@ -108,9 +111,9 @@ public class TickResource {
             return Uni.createFrom().failure(new BadRequestException("Symbol and date are required"));
         }
 
-        TickEntity entity = TickMapper.toEntity(dto);
+        TickEntity entity = tickMapper.toEntity(dto);
         return repository.persist(entity)
-            .replaceWith(TickMapper.toDto(entity));
+            .replaceWith(tickMapper.toDto(entity));
     }
 
     @PUT
@@ -135,7 +138,7 @@ public class TickResource {
                 return entity;
             })
             .call(entity -> repository.persist(entity))
-            .map(TickMapper::toDto);
+            .map(tickMapper::toDto);
     }
 
     @DELETE

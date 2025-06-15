@@ -1,66 +1,21 @@
 package com.vjcspy.stockinfo.domain.tick;
 
-
 import com.fasterxml.jackson.databind.JsonNode;
-
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Objects;
 
 /**
  * DTO for {@link TickEntity}
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TickDto implements Serializable {
-    private final Integer id;
-    private final String symbol;
-    private final LocalDate date;
-    private final JsonNode meta;
-
-    public TickDto(Integer id, String symbol, LocalDate date, JsonNode meta) {
-        this.id = id;
-        this.symbol = symbol;
-        this.date = date;
-        this.meta = meta;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public JsonNode getMeta() {
-        return meta;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TickDto entity = (TickDto) o;
-        return Objects.equals(this.id, entity.id) &&
-            Objects.equals(this.symbol, entity.symbol) &&
-            Objects.equals(this.date, entity.date) &&
-            Objects.equals(this.meta, entity.meta);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, symbol, date, meta);
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "(" +
-            "id = " + id + ", " +
-            "symbol = " + symbol + ", " +
-            "date = " + date + ", " +
-            "meta = " + meta + ")";
-    }
+    private Integer id;
+    private String symbol;
+    private LocalDate date;
+    private JsonNode meta;
 }
